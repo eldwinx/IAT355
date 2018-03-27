@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+
+<style>
+
+    .areaUSA {
+        fill: #ff4000;
+        clip-path: url(#clip);
+    }
+
+    .areaNZL {
+        fill:#ffbf00;
+        clip-path: url(#clip);
+    }
+
+    .areaCAN {
+        fill:#ffff00;
+        clip-path: url(#clip);
+    }
+
+    .areaFRA {
+        fill:#80ff00;
+        clip-path: url(#clip);
+    }
+
+    .areaEU {
+        fill:#00bfff;
+        clip-path: url(#clip);
+    }
+
+    .areaJPN {
+        fill:#ff00ff;
+        clip-path: url(#clip);
+    }
+
+    .areaRUS {
+        fill:#000000;
+        clip-path: url(#clip);
+    }
+
+    .areaKOR {
+        fill:#f8c6a1;
+        clip-path: url(#clip);
+    }
+
+    /* .empty {
+      fill:none;
+      clip-path: url(#clip);
+    } */
+
+    .zoom {
+        cursor: move;
+        fill: none;
+        pointer-events: all;
+    }
+
+</style>
+<body>
+  <button id="sortButton" type="button">Sort value </button>
+
+  <div class="chart" id="barchart"></div>
+  <div class="chart" id="chart"></div>
+  <div class="chart" id="chart2"></div>
+  <div class="chart" id="chart3"></div>
+</body>
+<svg width="960" height="500"></svg>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="scatterplot.js"></script>
+<script src="scatterplot2.js"></script>
+<script src="scatterplot3.js"></script>
+<script src="barchart.js"></script>
+<svg width="400" height="400"></svg>
+
+<script>
+  // use local file
+  var url = "http://www.sfu.ca/~wadel/iat355/EDEmployment.csv";
+
+  var scatterchart = scatterChart()
+    .width(500)
+    .height(350);
+
+  var scatterchart2 = scatterChart2()
+    .width(500)
+    .height(350);
+
+  var scatterchart3 = scatterChart3()
+    .width(500)
+    .height(350);
+  //  var parseTime = d3.timeParse("%Y");
+  var bargraph = new barChart().width(650).height(350);
+
+  d3.csv(url)
+    .row(function(d) {
+
+      d['country'] = d['country'];
+      d['time'] = d['time'];
+      d['EM_Try'] = +d['Em_Try'];
+      d['Em_Upp'] = +d['Em_Upp'];
+      d['Em_Bupp'] = +d['Em_Bupp'];
+      d['E_Avg'] = +d['E_Avg'];
+      d['Ed_Upp'] = +d['Ed_Upp'];
+      d['Ed_Try'] = +d['Ed_Try'];
+      d['Ed_Bupp'] = +d['Ed_Bupp'];
+      d['gdp'] = +d['gdp'];
+
+
+      return d;
+    })
+
+    .get(function(dataset) {
+
+      var sortValues = false;
+      bargraph(d3.select("#barchart"), dataset);
+
+      bargraph.onClick = function(selection) {
+        scatterchart.highlightcountry(selection);
+        scatterchart2.highlightcountry(selection);
+        scatterchart3.highlightcountry(selection);
+      }
+
+      bargraph.onDblClick = function(selection) {
+        scatterchart.highlightcountry();
+        scatterchart2.highlightcountry();
+        scatterchart3.highlightcountry();
+      }
+
+      $("#sortButton").click(function(evt) {
+        sortValues = !sortValues;
+        bargraph.sort(sortValues)
+      })
+
+      scatterchart(d3.select("#chart"), dataset);
+
+      scatterchart.onBrushData = function(data) {
+        bargraph.updateChart(data);
+      }
+
+      scatterchart2(d3.select("#chart2"), dataset);
+
+      scatterchart2.onBrushData = function(data) {
+        bargraph.updateChart(data);
+      }
+
+      scatterchart3(d3.select("#chart3"), dataset);
+      scatterchart3.onBrushData = function(data) {
+        bargraph.updateChart(data);
+      }
+    });
+</script>
+
+
+
+<script>
+    // var country = ["ALL", "USA", "NZL", "CAN", "FRA", "EU", "JPN", "RUS", "KOR"];
+    //
+    // var select = d3.select('body')
+    // .append('select')
+    // .attr('class','select')
+    // .on('change',onchange)
+    //
+    // var options = select
+    // .selectAll('option')
+    // .data(country).enter()
+    // .append('option')
+    // .text(function (d) { return d; });
+    //
+    // function onchange() {
+    //   selectValue = d3.select('select').property('value')
+    //   d3.select('body')
+    //   .append('p')
+    //   .text(selectValue + ' is the last selected option.')
+    // };
+
+    var svg = d3.select("svg"),
+        margin = {top: 20, right: 20, bottom: 110, left: 40},
+        margin2 = {top: 430, right: 20, bottom: 30, left: 40},
+        width = +svg.attr("width") - margin.left - margin.right,
+        height = +svg.attr("height") - margin.top - margin.bottom,
+        height2 = +svg.attr("height") - margin2.top - margin2.bottom;
+
+    var parseDate = d3.timeParse("%Y");
+
+    var x = d3.scaleTime().range([0, width]),
+        x2 = d3.scaleTime().range([0, width]),
+        y = d3.scaleLinear().range([height, 0]),
+        y2 = d3.scaleLinear().range([height2, 0]);
+
+    var xAxis = d3.axisBottom(x),
+        xAxis2 = d3.axisBottom(x2),
+        yAxis = d3.axisLeft(y);
+
+    var brush = d3.brushX()
+        .extent([[0, 0], [width, height2]])
+        .on("brush end", brushed);
+
+// if(selectValue == "USA") {
+    var areaUSA = d3.area()
+        .curve(d3.curveMonotoneX)
+        .x(function(d) { return x(d.time); })
+        .y0(function(d) { return y(d.USAavg)+1; })
+        .y1(function(d) { return y(d.USAavg); });
+// }
+
+    var areaNZL = d3.area()
+        .curve(d3.curveMonotoneX)
+        .x(function(d) { return x(d.time); })
+        .y0(function(d) { return y(d.NZLavg)+1; })
+        .y1(function(d) { return y(d.NZLavg); });
+
+    var areaCAN = d3.area()
+        .curve(d3.curveMonotoneX)
+        .x(function(d) { return x(d.time); })
+        .y0(function(d) { return y(d.CANavg)+1; })
+        .y1(function(d) { return y(d.CANavg); });
+
+    var areaFRA = d3.area()
+        .curve(d3.curveMonotoneX)
+        .x(function(d) { return x(d.time); })
+        .y0(function(d) { return y(d.FRAavg)+1; })
+        .y1(function(d) { return y(d.FRAavg); });
+
+    var areaEU = d3.area()
+        .curve(d3.curveMonotoneX)
+        .x(function(d) { return x(d.time); })
+        .y0(function(d) { return y(d.EUavg)+1; })
+        .y1(function(d) { return y(d.EUavg); });
+
+    var areaJPN = d3.area()
+        .curve(d3.curveMonotoneX)
+        .x(function(d) { return x(d.time); })
+        .y0(function(d) { return y(d.JPNavg)+1; })
+        .y1(function(d) { return y(d.JPNavg); });
+
+    var areaRUS = d3.area()
+        .curve(d3.curveMonotoneX)
+        .x(function(d) { return x(d.time); })
+        .y0(function(d) { return y(d.RUSavg)+1; })
+        .y1(function(d) { return y(d.RUSavg); });
+
+    var areaKOR = d3.area()
+        .curve(d3.curveMonotoneX)
+        .x(function(d) { return x(d.time); })
+        .y0(function(d) { return y(d.KORavg)+1; })
+        .y1(function(d) { return y(d.KORavg); });
+
+// if(selectValue == "USA") {
+//   var areaUSA = d3.area()
+//       .curve(d3.curveMonotoneX)
+//       .x(function(d) { return x(d.time); })
+//       .y0(function(d) { return y(d.USAavg)+1; })
+//       .y1(function(d) { return y(d.USAavg); });
+//
+//   var areaNZL = d3.area()
+//       .curve(d3.curveMonotoneX)
+//       .remove();
+//
+//   var areaCAN = d3.area()
+//       .curve(d3.curveMonotoneX)
+//       .remove();
+//
+//   var areaFRA = d3.area()
+//       .curve(d3.curveMonotoneX)
+//       .remove();
+//
+//   var areaEU = d3.area()
+//       .curve(d3.curveMonotoneX)
+//       .remove();
+//
+//   var areaJPN = d3.area()
+//       .curve(d3.curveMonotoneX)
+//       .remove();
+//
+//   var areaRUS = d3.area()
+//       .curve(d3.curveMonotoneX)
+//       .remove();
+//
+//   var areaKOR = d3.area()
+//       .curve(d3.curveMonotoneX)
+//       .remove();
+// }
+
+
+    var areaNZL2 = d3.area()
+        .curve(d3.curveMonotoneX)
+        .x(function(d) { return x2(d.time); })
+        .y0(function(d) { return y2(d.NZLavg)+1; })
+        .y1(function(d) { return y2(d.NZLavg); });
+
+    var areaUSA2 = d3.area()
+        .curve(d3.curveMonotoneX)
+        .x(function(d) { return x2(d.time); })
+        .y0(function(d) { return y2(d.USAavg)+1; })
+        .y1(function(d) { return y2(d.USAavg); });
+
+    var areaCAN2 = d3.area()
+        .curve(d3.curveMonotoneX)
+        .x(function(d) { return x2(d.time); })
+        .y0(function(d) { return y2(d.CANavg)+1; })
+        .y1(function(d) { return y2(d.CANavg); });
+
+    var areaFRA2 = d3.area()
+        .curve(d3.curveMonotoneX)
+        .x(function(d) { return x2(d.time); })
+        .y0(function(d) { return y2(d.FRAavg)+1; })
+        .y1(function(d) { return y2(d.FRAavg); });
+
+    var areaEU2 = d3.area()
+        .curve(d3.curveMonotoneX)
+        .x(function(d) { return x2(d.time); })
+        .y0(function(d) { return y2(d.EUavg)+1; })
+        .y1(function(d) { return y2(d.EUavg); });
+
+    var areaJPN2 = d3.area()
+        .curve(d3.curveMonotoneX)
+        .x(function(d) { return x2(d.time); })
+        .y0(function(d) { return y2(d.JPNavg)+1; })
+        .y1(function(d) { return y2(d.JPNavg); });
+
+    var areaRUS2 = d3.area()
+        .curve(d3.curveMonotoneX)
+        .x(function(d) { return x2(d.time); })
+        .y0(function(d) { return y2(d.RUSavg)+1; })
+        .y1(function(d) { return y2(d.RUSavg); });
+
+    var areaKOR2 = d3.area()
+        .curve(d3.curveMonotoneX)
+        .x(function(d) { return x2(d.time); })
+        .y0(function(d) { return y2(d.KORavg)+1; })
+        .y1(function(d) { return y2(d.KORavg); });
+
+
+    svg.append("defs")
+        .append("clipPath")
+        .attr("id", "clip")
+        .append("rect")
+        .attr("width", width)
+        .attr("height", height);
+
+    var focus = svg.append("g")
+        .attr("class", "focus")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    var context = svg.append("g")
+        .attr("class", "context")
+        .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+
+    d3.csv("test_data.csv", type, function(error, data) {
+        if (error) throw error;
+
+        x.domain(d3.extent(data, function(d) { return d.time; }));
+        y.domain([0, d3.max(data, function(d) { return d.NZLavg; })]);
+        x2.domain(x.domain());
+        y2.domain(y.domain());
+
+
+          focus.append("path")
+              .datum(data)
+              .attr("class", "areaUSA")
+              .attr("d", areaUSA);
+
+          focus.append("path")
+              .datum(data)
+              .attr("class", "areaNZL")
+              .attr("d", areaNZL);
+
+          focus.append("path")
+              .datum(data)
+              .attr("class", "areaCAN")
+              .attr("d", areaCAN);
+
+          focus.append("path")
+              .datum(data)
+              .attr("class", "areaFRA")
+              .attr("d", areaFRA);
+
+          focus.append("path")
+              .datum(data)
+              .attr("class", "areaEU")
+              .attr("d", areaEU);
+
+          focus.append("path")
+              .datum(data)
+              .attr("class", "areaJPN")
+              .attr("d", areaJPN);
+
+          focus.append("path")
+              .datum(data)
+              .attr("class", "areaRUS")
+              .attr("d", areaRUS);
+
+          focus.append("path")
+              .datum(data)
+              .attr("class", "areaKOR")
+              .attr("d", areaKOR);
+// }
+
+        // if(selectValue == "USA") {
+        //   focus.append("path")
+        //       .datum(data)
+        //       .attr("class", "areaUSA")
+        //       .attr("d", areaUSA);
+        //
+        //   focus.append("path")
+        //       .datum(data)
+        //       .attr("class", "empty")
+        //       .attr("d", areaNZL);
+        //
+        //   focus.append("path")
+        //       .datum(data)
+        //       .attr("class", "empty")
+        //       .attr("d", areaCAN);
+        //
+        //   focus.append("path")
+        //       .datum(data)
+        //       .attr("class", "empty")
+        //       .attr("d", areaFRA);
+        //
+        //   focus.append("path")
+        //       .datum(data)
+        //       .attr("class", "empty")
+        //       .attr("d", areaEU);
+        //
+        //   focus.append("path")
+        //       .datum(data)
+        //       .attr("class", "empty")
+        //       .attr("d", areaJPN);
+        //
+        //   focus.append("path")
+        //       .datum(data)
+        //       .attr("class", "empty")
+        //       .attr("d", areaRUS);
+        //
+        //   focus.append("path")
+        //       .datum(data)
+        //       .attr("class", "empty")
+        //       .attr("d", areaKOR);
+        //
+        // }
+        //
+        // if(selectValue == "NZL") {
+        //     focus.append("path")
+        //         .datum(data)
+        //         .attr("class", "empty")
+        //         .attr("d", areaUSA);
+        //
+        //     focus.append("path")
+        //         .datum(data)
+        //         .attr("class", "areaNZL")
+        //         .attr("d", areaNZL);
+        //
+        //     focus.append("path")
+        //         .datum(data)
+        //         .attr("class", "empty")
+        //         .attr("d", areaCAN);
+        //
+        //     focus.append("path")
+        //         .datum(data)
+        //         .attr("class", "empty")
+        //         .attr("d", areaFRA);
+        //
+        //     focus.append("path")
+        //         .datum(data)
+        //         .attr("class", "empty")
+        //         .attr("d", areaEU);
+        //
+        //     focus.append("path")
+        //         .datum(data)
+        //         .attr("class", "empty")
+        //         .attr("d", areaJPN);
+        //
+        //     focus.append("path")
+        //         .datum(data)
+        //         .attr("class", "empty")
+        //         .attr("d", areaRUS);
+        //
+        //     focus.append("path")
+        //         .datum(data)
+        //         .attr("class", "empty")
+        //         .attr("d", areaKOR);
+        //   }
+        //
+        //   if(selectValue == "CAN") {
+        //       focus.append("path")
+        //           .datum(data)
+        //           .attr("class", "empty")
+        //           .attr("d", areaUSA);
+        //
+        //       focus.append("path")
+        //           .datum(data)
+        //           .attr("class", "empty")
+        //           .attr("d", areaNZL);
+        //
+        //       focus.append("path")
+        //           .datum(data)
+        //           .attr("class", "areaCAN")
+        //           .attr("d", areaCAN);
+        //
+        //       focus.append("path")
+        //           .datum(data)
+        //           .attr("class", "empty")
+        //           .attr("d", areaFRA);
+        //
+        //       focus.append("path")
+        //           .datum(data)
+        //           .attr("class", "empty")
+        //           .attr("d", areaEU);
+        //
+        //       focus.append("path")
+        //           .datum(data)
+        //           .attr("class", "empty")
+        //           .attr("d", areaJPN);
+        //
+        //       focus.append("path")
+        //           .datum(data)
+        //           .attr("class", "empty")
+        //           .attr("d", areaRUS);
+        //
+        //       focus.append("path")
+        //           .datum(data)
+        //           .attr("class", "empty")
+        //           .attr("d", areaKOR);
+        //     }
+        //
+        //     if(selectValue == "FRA") {
+        //         focus.append("path")
+        //             .datum(data)
+        //             .attr("class", "empty")
+        //             .attr("d", areaUSA);
+        //
+        //         focus.append("path")
+        //             .datum(data)
+        //             .attr("class", "empty")
+        //             .attr("d", areaNZL);
+        //
+        //         focus.append("path")
+        //             .datum(data)
+        //             .attr("class", "empty")
+        //             .attr("d", areaCAN);
+        //
+        //         focus.append("path")
+        //             .datum(data)
+        //             .attr("class", "areaFRA")
+        //             .attr("d", areaFRA);
+        //
+        //         focus.append("path")
+        //             .datum(data)
+        //             .attr("class", "empty")
+        //             .attr("d", areaEU);
+        //
+        //         focus.append("path")
+        //             .datum(data)
+        //             .attr("class", "empty")
+        //             .attr("d", areaJPN);
+        //
+        //         focus.append("path")
+        //             .datum(data)
+        //             .attr("class", "empty")
+        //             .attr("d", areaRUS);
+        //
+        //         focus.append("path")
+        //             .datum(data)
+        //             .attr("class", "empty")
+        //             .attr("d", areaKOR);
+        //       }
+        //
+        //       if(selectValue == "EU") {
+        //           focus.append("path")
+        //               .datum(data)
+        //               .attr("class", "empty")
+        //               .attr("d", areaUSA);
+        //
+        //           focus.append("path")
+        //               .datum(data)
+        //               .attr("class", "empty")
+        //               .attr("d", areaNZL);
+        //
+        //           focus.append("path")
+        //               .datum(data)
+        //               .attr("class", "empty")
+        //               .attr("d", areaCAN);
+        //
+        //           focus.append("path")
+        //               .datum(data)
+        //               .attr("class", "empty")
+        //               .attr("d", areaFRA);
+        //
+        //           focus.append("path")
+        //               .datum(data)
+        //               .attr("class", "areaEU")
+        //               .attr("d", areaEU);
+        //
+        //           focus.append("path")
+        //               .datum(data)
+        //               .attr("class", "empty")
+        //               .attr("d", areaJPN);
+        //
+        //           focus.append("path")
+        //               .datum(data)
+        //               .attr("class", "empty")
+        //               .attr("d", areaRUS);
+        //
+        //           focus.append("path")
+        //               .datum(data)
+        //               .attr("class", "empty")
+        //               .attr("d", areaKOR);
+        //         }
+        //
+        //         if(selectValue == "JPN") {
+        //             focus.append("path")
+        //                 .datum(data)
+        //                 .attr("class", "empty")
+        //                 .attr("d", areaUSA);
+        //
+        //             focus.append("path")
+        //                 .datum(data)
+        //                 .attr("class", "empty")
+        //                 .attr("d", areaNZL);
+        //
+        //             focus.append("path")
+        //                 .datum(data)
+        //                 .attr("class", "empty")
+        //                 .attr("d", areaCAN);
+        //
+        //             focus.append("path")
+        //                 .datum(data)
+        //                 .attr("class", "empty")
+        //                 .attr("d", areaFRA);
+        //
+        //             focus.append("path")
+        //                 .datum(data)
+        //                 .attr("class", "empty")
+        //                 .attr("d", areaEU);
+        //
+        //             focus.append("path")
+        //                 .datum(data)
+        //                 .attr("class", "areaJPN")
+        //                 .attr("d", areaJPN);
+        //
+        //             focus.append("path")
+        //                 .datum(data)
+        //                 .attr("class", "empty")
+        //                 .attr("d", areaRUS);
+        //
+        //             focus.append("path")
+        //                 .datum(data)
+        //                 .attr("class", "empty")
+        //                 .attr("d", areaKOR);
+        //           }
+        //
+        //           if(selectValue == "RUS") {
+        //               focus.append("path")
+        //                   .datum(data)
+        //                   .attr("class", "empty")
+        //                   .attr("d", areaUSA);
+        //
+        //               focus.append("path")
+        //                   .datum(data)
+        //                   .attr("class", "empty")
+        //                   .attr("d", areaNZL);
+        //
+        //               focus.append("path")
+        //                   .datum(data)
+        //                   .attr("class", "empty")
+        //                   .attr("d", areaCAN);
+        //
+        //               focus.append("path")
+        //                   .datum(data)
+        //                   .attr("class", "empty")
+        //                   .attr("d", areaFRA);
+        //
+        //               focus.append("path")
+        //                   .datum(data)
+        //                   .attr("class", "empty")
+        //                   .attr("d", areaEU);
+        //
+        //               focus.append("path")
+        //                   .datum(data)
+        //                   .attr("class", "empty")
+        //                   .attr("d", areaJPN);
+        //
+        //               focus.append("path")
+        //                   .datum(data)
+        //                   .attr("class", "areaRUS")
+        //                   .attr("d", areaRUS);
+        //
+        //               focus.append("path")
+        //                   .datum(data)
+        //                   .attr("class", "empty")
+        //                   .attr("d", areaKOR);
+        //             }
+        //
+        //             if(selectValue == "KOR") {
+        //                 focus.append("path")
+        //                     .datum(data)
+        //                     .attr("class", "empty")
+        //                     .attr("d", areaUSA);
+        //
+        //                 focus.append("path")
+        //                     .datum(data)
+        //                     .attr("class", "empty")
+        //                     .attr("d", areaNZL);
+        //
+        //                 focus.append("path")
+        //                     .datum(data)
+        //                     .attr("class", "empty")
+        //                     .attr("d", areaCAN);
+        //
+        //                 focus.append("path")
+        //                     .datum(data)
+        //                     .attr("class", "empty")
+        //                     .attr("d", areaFRA);
+        //
+        //                 focus.append("path")
+        //                     .datum(data)
+        //                     .attr("class", "empty")
+        //                     .attr("d", areaEU);
+        //
+        //                 focus.append("path")
+        //                     .datum(data)
+        //                     .attr("class", "empty")
+        //                     .attr("d", areaJPN);
+        //
+        //                 focus.append("path")
+        //                     .datum(data)
+        //                     .attr("class", "empty")
+        //                     .attr("d", areaRUS);
+        //
+        //                 focus.append("path")
+        //                     .datum(data)
+        //                     .attr("class", "areaKOR")
+        //                     .attr("d", areaKOR);
+        //               }
+
+
+        focus.append("g")
+            .attr("class", "axis axis--x")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis);
+
+        focus.append("g")
+            .attr("class", "axis axis--y")
+            .call(yAxis);
+
+        context.append("path")
+            .datum(data)
+            .attr("class", "areaUSA")
+            .attr("d", areaUSA2);
+
+        context.append("path")
+            .datum(data)
+            .attr("class", "areaNZL")
+            .attr("d", areaNZL2);
+
+        context.append("path")
+            .datum(data)
+            .attr("class", "areaCAN")
+            .attr("d", areaCAN2);
+
+        context.append("path")
+            .datum(data)
+            .attr("class", "areaFRA")
+            .attr("d", areaFRA2);
+
+        context.append("path")
+            .datum(data)
+            .attr("class", "areaEU")
+            .attr("d", areaEU2);
+
+        context.append("path")
+            .datum(data)
+            .attr("class", "areaJPN")
+            .attr("d", areaJPN2);
+
+        context.append("path")
+            .datum(data)
+            .attr("class", "areaRUS")
+            .attr("d", areaRUS2);
+
+        context.append("path")
+            .datum(data)
+            .attr("class", "areaKOR")
+            .attr("d", areaKOR2);
+
+        context.append("g")
+            .attr("class", "axis axis--x")
+            .attr("transform", "translate(0," + height2 + ")")
+            .call(xAxis2);
+
+        context.append("g")
+            .attr("class", "brush")
+            .call(brush)
+            .call(brush.move, x.range());
+
+    });
+
+
+    function brushed() {
+
+        var s = d3.event.selection || x2.range();
+        x.domain(s.map(x2.invert, x2));
+        focus.select(".areaUSA").attr("d", areaUSA);
+        focus.select(".areaNZL").attr("d", areaNZL);
+        focus.select(".areaCAN").attr("d", areaCAN);
+        focus.select(".areaFRA").attr("d", areaFRA);
+        focus.select(".areaEU").attr("d", areaEU);
+        focus.select(".areaJPN").attr("d", areaJPN);
+        focus.select(".areaRUS").attr("d", areaRUS);
+        focus.select(".areaKOR").attr("d", areaKOR);
+        focus.select(".axis--x").call(xAxis);
+
+    }
+
+    function type(d) {
+        d.time = parseDate(d.time);
+        // if(country[] == "ALL") {
+        // if(selectValue == "ALL") {
+          d.USAavg = +d.USAavg;
+          d.NZLavg = +d.NZLavg;
+          d.CANavg = +d.CANavg;
+          d.FRAavg = +d.FRAavg;
+          d.EUavg = +d.EUavg;
+          d.JPNavg = +d.JPNavg;
+          d.RUSavg = +d.RUSavg;
+          d.KORavg = +d.KORavg;
+          d.empty = +d.empty;
+       // }
+
+      //  if(selectValue == "USA") {
+      //    d.USAavg = +d.USAavg;
+      //    d.NZLavg = +d.empty;
+      //    d.CANavg = +d.empty;
+      //    d.FRAavg = +d.empty;
+      //    d.EUavg = +d.empty;
+      //    d.JPNavg = +d.empty;
+      //    d.RUSavg = +d.empty;
+      //    d.KORavg = +d.empty;
+      // }
+
+        // if(country[] == "USA") {
+        //   d.USAavg = +d.USAavg;
+        // }
+
+        return d;
+    }
+
+
+</script>
+
+
+</html>
