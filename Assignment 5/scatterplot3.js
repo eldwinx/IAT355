@@ -25,7 +25,7 @@ var scatterChart3 = function(options) {
     });
 
     xscale = d3.scaleLinear()
-      .domain([0, maxx])
+      .domain([0, 100])
       .range([margin, width - margin])
 
     var maxy = d3.max(dataset, function(d) {
@@ -33,7 +33,7 @@ var scatterChart3 = function(options) {
     });
 
     yscale = d3.scaleLinear()
-      .domain([0, maxy])
+      .domain([0, 100])
       .range([height - margin, margin])
 
     xAxis = d3.axisBottom().scale(xscale);
