@@ -41,41 +41,49 @@
     }
 
     .areaUSA {
+        opacity:1;
         fill: #ff4000;
         clip-path: url(#clip);
     }
 
     .areaNZL {
+      opacity:1;
         fill:#ffbf00;
         clip-path: url(#clip);
     }
 
     .areaCAN {
+      opacity:1;
         fill:#ffff00;
         clip-path: url(#clip);
     }
 
     .areaFRA {
+      opacity:1;
         fill:#80ff00;
         clip-path: url(#clip);
     }
 
     .areaEU {
+      opacity:1;
         fill:#00bfff;
         clip-path: url(#clip);
     }
 
     .areaJPN {
+      opacity:1;
         fill:#ff00ff;
         clip-path: url(#clip);
     }
 
     .areaRUS {
+      opacity:1;
         fill:#000000;
         clip-path: url(#clip);
     }
 
     .areaKOR {
+      opacity:1;
         fill:#f8c6a1;
         clip-path: url(#clip);
     }
@@ -264,25 +272,31 @@
         bargraph.updateChart(data);
       }
     });
-    // var country = ["ALL", "USA", "NZL", "CAN", "FRA", "EU", "JPN", "RUS", "KOR"];
-    //
-    // var select = d3.select('body')
-    // .append('select')
-    // .attr('class','select')
-    // .on('change',onchange)
-    //
-    // var options = select
-    // .selectAll('option')
-    // .data(country).enter()
-    // .append('option')
-    // .text(function (d) { return d; });
-    //
-    // function onchange() {
-    //   selectValue = d3.select('select').property('value')
-    //   d3.select('body')
-    //   .append('p')
-    //   .text(selectValue + ' is the last selected option.')
-    // };
+
+
+
+//line diagram
+    var country = ["ALL", "USA", "NZL", "CAN", "FRA", "EU", "JPN", "RUS", "KOR"];
+
+    var select = d3.select('body')
+    .append('select')
+    .attr('class','select')
+    .on('change',onchange)
+
+    var options = select
+    .selectAll('option')
+    .data(country).enter()
+    .append('option')
+    .text(function (d) { return d; });
+
+    function onchange() {
+      selectValue = d3.select('select').property('value')
+      update(selectValue);
+      d3.select('body')
+      .append('p')
+      .text(selectValue + ' is the last selected option.')
+
+    };
 
     var svg = d3.select("svg"),
         margin = {top: 20, right: 20, bottom: 110, left: 40},
@@ -306,13 +320,11 @@
         .extent([[0, 0], [width, height2]])
         .on("brush end", brushed);
 
-// if(selectValue == "USA") {
     var areaUSA = d3.area()
         .curve(d3.curveMonotoneX)
         .x(function(d) { return x(d.time); })
         .y0(function(d) { return y(d.USAavg)+1; })
         .y1(function(d) { return y(d.USAavg); });
-// }
 
     var areaNZL = d3.area()
         .curve(d3.curveMonotoneX)
@@ -355,43 +367,6 @@
         .x(function(d) { return x(d.time); })
         .y0(function(d) { return y(d.KORavg)+1; })
         .y1(function(d) { return y(d.KORavg); });
-
-// if(selectValue == "USA") {
-//   var areaUSA = d3.area()
-//       .curve(d3.curveMonotoneX)
-//       .x(function(d) { return x(d.time); })
-//       .y0(function(d) { return y(d.USAavg)+1; })
-//       .y1(function(d) { return y(d.USAavg); });
-//
-//   var areaNZL = d3.area()
-//       .curve(d3.curveMonotoneX)
-//       .remove();
-//
-//   var areaCAN = d3.area()
-//       .curve(d3.curveMonotoneX)
-//       .remove();
-//
-//   var areaFRA = d3.area()
-//       .curve(d3.curveMonotoneX)
-//       .remove();
-//
-//   var areaEU = d3.area()
-//       .curve(d3.curveMonotoneX)
-//       .remove();
-//
-//   var areaJPN = d3.area()
-//       .curve(d3.curveMonotoneX)
-//       .remove();
-//
-//   var areaRUS = d3.area()
-//       .curve(d3.curveMonotoneX)
-//       .remove();
-//
-//   var areaKOR = d3.area()
-//       .curve(d3.curveMonotoneX)
-//       .remove();
-// }
-
 
     var areaNZL2 = d3.area()
         .curve(d3.curveMonotoneX)
@@ -457,7 +432,7 @@
         .attr("class", "context")
         .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
-    d3.csv("test_data.csv", type, function(error, data) {
+    d3.csv("http://www.sfu.ca/~eldwinx/355/test_data.csv", type, function(error, data) {
         if (error) throw error;
 
         x.domain(d3.extent(data, function(d) { return d.time; }));
@@ -505,345 +480,6 @@
               .datum(data)
               .attr("class", "areaKOR")
               .attr("d", areaKOR);
-// }
-
-        // if(selectValue == "USA") {
-        //   focus.append("path")
-        //       .datum(data)
-        //       .attr("class", "areaUSA")
-        //       .attr("d", areaUSA);
-        //
-        //   focus.append("path")
-        //       .datum(data)
-        //       .attr("class", "empty")
-        //       .attr("d", areaNZL);
-        //
-        //   focus.append("path")
-        //       .datum(data)
-        //       .attr("class", "empty")
-        //       .attr("d", areaCAN);
-        //
-        //   focus.append("path")
-        //       .datum(data)
-        //       .attr("class", "empty")
-        //       .attr("d", areaFRA);
-        //
-        //   focus.append("path")
-        //       .datum(data)
-        //       .attr("class", "empty")
-        //       .attr("d", areaEU);
-        //
-        //   focus.append("path")
-        //       .datum(data)
-        //       .attr("class", "empty")
-        //       .attr("d", areaJPN);
-        //
-        //   focus.append("path")
-        //       .datum(data)
-        //       .attr("class", "empty")
-        //       .attr("d", areaRUS);
-        //
-        //   focus.append("path")
-        //       .datum(data)
-        //       .attr("class", "empty")
-        //       .attr("d", areaKOR);
-        //
-        // }
-        //
-        // if(selectValue == "NZL") {
-        //     focus.append("path")
-        //         .datum(data)
-        //         .attr("class", "empty")
-        //         .attr("d", areaUSA);
-        //
-        //     focus.append("path")
-        //         .datum(data)
-        //         .attr("class", "areaNZL")
-        //         .attr("d", areaNZL);
-        //
-        //     focus.append("path")
-        //         .datum(data)
-        //         .attr("class", "empty")
-        //         .attr("d", areaCAN);
-        //
-        //     focus.append("path")
-        //         .datum(data)
-        //         .attr("class", "empty")
-        //         .attr("d", areaFRA);
-        //
-        //     focus.append("path")
-        //         .datum(data)
-        //         .attr("class", "empty")
-        //         .attr("d", areaEU);
-        //
-        //     focus.append("path")
-        //         .datum(data)
-        //         .attr("class", "empty")
-        //         .attr("d", areaJPN);
-        //
-        //     focus.append("path")
-        //         .datum(data)
-        //         .attr("class", "empty")
-        //         .attr("d", areaRUS);
-        //
-        //     focus.append("path")
-        //         .datum(data)
-        //         .attr("class", "empty")
-        //         .attr("d", areaKOR);
-        //   }
-        //
-        //   if(selectValue == "CAN") {
-        //       focus.append("path")
-        //           .datum(data)
-        //           .attr("class", "empty")
-        //           .attr("d", areaUSA);
-        //
-        //       focus.append("path")
-        //           .datum(data)
-        //           .attr("class", "empty")
-        //           .attr("d", areaNZL);
-        //
-        //       focus.append("path")
-        //           .datum(data)
-        //           .attr("class", "areaCAN")
-        //           .attr("d", areaCAN);
-        //
-        //       focus.append("path")
-        //           .datum(data)
-        //           .attr("class", "empty")
-        //           .attr("d", areaFRA);
-        //
-        //       focus.append("path")
-        //           .datum(data)
-        //           .attr("class", "empty")
-        //           .attr("d", areaEU);
-        //
-        //       focus.append("path")
-        //           .datum(data)
-        //           .attr("class", "empty")
-        //           .attr("d", areaJPN);
-        //
-        //       focus.append("path")
-        //           .datum(data)
-        //           .attr("class", "empty")
-        //           .attr("d", areaRUS);
-        //
-        //       focus.append("path")
-        //           .datum(data)
-        //           .attr("class", "empty")
-        //           .attr("d", areaKOR);
-        //     }
-        //
-        //     if(selectValue == "FRA") {
-        //         focus.append("path")
-        //             .datum(data)
-        //             .attr("class", "empty")
-        //             .attr("d", areaUSA);
-        //
-        //         focus.append("path")
-        //             .datum(data)
-        //             .attr("class", "empty")
-        //             .attr("d", areaNZL);
-        //
-        //         focus.append("path")
-        //             .datum(data)
-        //             .attr("class", "empty")
-        //             .attr("d", areaCAN);
-        //
-        //         focus.append("path")
-        //             .datum(data)
-        //             .attr("class", "areaFRA")
-        //             .attr("d", areaFRA);
-        //
-        //         focus.append("path")
-        //             .datum(data)
-        //             .attr("class", "empty")
-        //             .attr("d", areaEU);
-        //
-        //         focus.append("path")
-        //             .datum(data)
-        //             .attr("class", "empty")
-        //             .attr("d", areaJPN);
-        //
-        //         focus.append("path")
-        //             .datum(data)
-        //             .attr("class", "empty")
-        //             .attr("d", areaRUS);
-        //
-        //         focus.append("path")
-        //             .datum(data)
-        //             .attr("class", "empty")
-        //             .attr("d", areaKOR);
-        //       }
-        //
-        //       if(selectValue == "EU") {
-        //           focus.append("path")
-        //               .datum(data)
-        //               .attr("class", "empty")
-        //               .attr("d", areaUSA);
-        //
-        //           focus.append("path")
-        //               .datum(data)
-        //               .attr("class", "empty")
-        //               .attr("d", areaNZL);
-        //
-        //           focus.append("path")
-        //               .datum(data)
-        //               .attr("class", "empty")
-        //               .attr("d", areaCAN);
-        //
-        //           focus.append("path")
-        //               .datum(data)
-        //               .attr("class", "empty")
-        //               .attr("d", areaFRA);
-        //
-        //           focus.append("path")
-        //               .datum(data)
-        //               .attr("class", "areaEU")
-        //               .attr("d", areaEU);
-        //
-        //           focus.append("path")
-        //               .datum(data)
-        //               .attr("class", "empty")
-        //               .attr("d", areaJPN);
-        //
-        //           focus.append("path")
-        //               .datum(data)
-        //               .attr("class", "empty")
-        //               .attr("d", areaRUS);
-        //
-        //           focus.append("path")
-        //               .datum(data)
-        //               .attr("class", "empty")
-        //               .attr("d", areaKOR);
-        //         }
-        //
-        //         if(selectValue == "JPN") {
-        //             focus.append("path")
-        //                 .datum(data)
-        //                 .attr("class", "empty")
-        //                 .attr("d", areaUSA);
-        //
-        //             focus.append("path")
-        //                 .datum(data)
-        //                 .attr("class", "empty")
-        //                 .attr("d", areaNZL);
-        //
-        //             focus.append("path")
-        //                 .datum(data)
-        //                 .attr("class", "empty")
-        //                 .attr("d", areaCAN);
-        //
-        //             focus.append("path")
-        //                 .datum(data)
-        //                 .attr("class", "empty")
-        //                 .attr("d", areaFRA);
-        //
-        //             focus.append("path")
-        //                 .datum(data)
-        //                 .attr("class", "empty")
-        //                 .attr("d", areaEU);
-        //
-        //             focus.append("path")
-        //                 .datum(data)
-        //                 .attr("class", "areaJPN")
-        //                 .attr("d", areaJPN);
-        //
-        //             focus.append("path")
-        //                 .datum(data)
-        //                 .attr("class", "empty")
-        //                 .attr("d", areaRUS);
-        //
-        //             focus.append("path")
-        //                 .datum(data)
-        //                 .attr("class", "empty")
-        //                 .attr("d", areaKOR);
-        //           }
-        //
-        //           if(selectValue == "RUS") {
-        //               focus.append("path")
-        //                   .datum(data)
-        //                   .attr("class", "empty")
-        //                   .attr("d", areaUSA);
-        //
-        //               focus.append("path")
-        //                   .datum(data)
-        //                   .attr("class", "empty")
-        //                   .attr("d", areaNZL);
-        //
-        //               focus.append("path")
-        //                   .datum(data)
-        //                   .attr("class", "empty")
-        //                   .attr("d", areaCAN);
-        //
-        //               focus.append("path")
-        //                   .datum(data)
-        //                   .attr("class", "empty")
-        //                   .attr("d", areaFRA);
-        //
-        //               focus.append("path")
-        //                   .datum(data)
-        //                   .attr("class", "empty")
-        //                   .attr("d", areaEU);
-        //
-        //               focus.append("path")
-        //                   .datum(data)
-        //                   .attr("class", "empty")
-        //                   .attr("d", areaJPN);
-        //
-        //               focus.append("path")
-        //                   .datum(data)
-        //                   .attr("class", "areaRUS")
-        //                   .attr("d", areaRUS);
-        //
-        //               focus.append("path")
-        //                   .datum(data)
-        //                   .attr("class", "empty")
-        //                   .attr("d", areaKOR);
-        //             }
-        //
-        //             if(selectValue == "KOR") {
-        //                 focus.append("path")
-        //                     .datum(data)
-        //                     .attr("class", "empty")
-        //                     .attr("d", areaUSA);
-        //
-        //                 focus.append("path")
-        //                     .datum(data)
-        //                     .attr("class", "empty")
-        //                     .attr("d", areaNZL);
-        //
-        //                 focus.append("path")
-        //                     .datum(data)
-        //                     .attr("class", "empty")
-        //                     .attr("d", areaCAN);
-        //
-        //                 focus.append("path")
-        //                     .datum(data)
-        //                     .attr("class", "empty")
-        //                     .attr("d", areaFRA);
-        //
-        //                 focus.append("path")
-        //                     .datum(data)
-        //                     .attr("class", "empty")
-        //                     .attr("d", areaEU);
-        //
-        //                 focus.append("path")
-        //                     .datum(data)
-        //                     .attr("class", "empty")
-        //                     .attr("d", areaJPN);
-        //
-        //                 focus.append("path")
-        //                     .datum(data)
-        //                     .attr("class", "empty")
-        //                     .attr("d", areaRUS);
-        //
-        //                 focus.append("path")
-        //                     .datum(data)
-        //                     .attr("class", "areaKOR")
-        //                     .attr("d", areaKOR);
-        //               }
-
 
         focus.append("g")
             .attr("class", "axis axis--x")
@@ -923,6 +559,202 @@
 
     }
 
+    function update(selectValue) {
+      d3.select('body')
+      .append('p')
+      .text(selectValue);
+      if (selectValue == "USA") { // user selected somting
+        console.log("hi");
+        svg.selectAll(".areaUSA").style("opacity", 1);
+        svg.selectAll(".areaNZL").style("opacity", 0);
+        svg.selectAll(".areaCAN").style("opacity", 0);
+        svg.selectAll(".areaFRA").style("opacity", 0);
+        svg.selectAll(".areaEU").style("opacity", 0);
+        svg.selectAll(".areaJPN").style("opacity", 0);
+        svg.selectAll(".areaRUS").style("opacity", 0);
+        svg.selectAll(".areaKOR").style("opacity", 0);
+
+        svg.selectAll(".areaUSA2").style("opacity", 1);
+        svg.selectAll(".areaNZL2").style("opacity", 0);
+        svg.selectAll(".areaCAN2").style("opacity", 0);
+        svg.selectAll(".areaFRA2").style("opacity", 0);
+        svg.selectAll(".areaEU2").style("opacity", 0);
+        svg.selectAll(".areaJPN2").style("opacity", 0);
+        svg.selectAll(".areaRUS2").style("opacity", 0);
+        svg.selectAll(".areaKOR2").style("opacity", 0);
+      }
+
+      else if (selectValue == "NZL") { // user selected somting
+        console.log("hi");
+        svg.selectAll(".areaNZL").style("opacity", 1);
+        svg.selectAll(".areaUSA").style("opacity", 0);
+        svg.selectAll(".areaCAN").style("opacity", 0);
+        svg.selectAll(".areaFRA").style("opacity", 0);
+        svg.selectAll(".areaEU").style("opacity", 0);
+        svg.selectAll(".areaJPN").style("opacity", 0);
+        svg.selectAll(".areaRUS").style("opacity", 0);
+        svg.selectAll(".areaKOR").style("opacity", 0);
+
+        svg.selectAll(".areaNZL2").style("opacity", 1);
+        svg.selectAll(".areaUSA2").style("opacity", 0);
+        svg.selectAll(".areaCAN2").style("opacity", 0);
+        svg.selectAll(".areaFRA2").style("opacity", 0);
+        svg.selectAll(".areaEU2").style("opacity", 0);
+        svg.selectAll(".areaJPN2").style("opacity", 0);
+        svg.selectAll(".areaRUS2").style("opacity", 0);
+        svg.selectAll(".areaKOR2").style("opacity", 0);
+      }
+
+    else if (selectValue == "CAN") { // user selected somting
+        console.log("hi");
+        svg.selectAll(".areaCAN").style("opacity", 1);
+        svg.selectAll(".areaUSA").style("opacity", 0);
+        svg.selectAll(".areaNZL").style("opacity", 0);
+        svg.selectAll(".areaFRA").style("opacity", 0);
+        svg.selectAll(".areaEU").style("opacity", 0);
+        svg.selectAll(".areaJPN").style("opacity", 0);
+        svg.selectAll(".areaRUS").style("opacity", 0);
+        svg.selectAll(".areaKOR").style("opacity", 0);
+
+        svg.selectAll(".areaCAN2").style("opacity", 1);
+        svg.selectAll(".areaUSA2").style("opacity", 0);
+        svg.selectAll(".areaNZL2").style("opacity", 0);
+        svg.selectAll(".areaFRA2").style("opacity", 0);
+        svg.selectAll(".areaEU2").style("opacity", 0);
+        svg.selectAll(".areaJPN2").style("opacity", 0);
+        svg.selectAll(".areaRUS2").style("opacity", 0);
+        svg.selectAll(".areaKOR2").style("opacity", 0);
+      }
+
+    else if (selectValue == "FRA") { // user selected somting
+        console.log("hi");
+        svg.selectAll(".areaFRA").style("opacity", 1);
+        svg.selectAll(".areaUSA").style("opacity", 0);
+        svg.selectAll(".areaNZL").style("opacity", 0);
+        svg.selectAll(".areaCAN").style("opacity", 0);
+        svg.selectAll(".areaEU").style("opacity", 0);
+        svg.selectAll(".areaJPN").style("opacity", 0);
+        svg.selectAll(".areaRUS").style("opacity", 0);
+        svg.selectAll(".areaKOR").style("opacity", 0);
+
+        svg.selectAll(".areaFRA2").style("opacity", 1);
+        svg.selectAll(".areaUSA2").style("opacity", 0);
+        svg.selectAll(".areaNZL2").style("opacity", 0);
+        svg.selectAll(".areaCAN2").style("opacity", 0);
+        svg.selectAll(".areaEU2").style("opacity", 0);
+        svg.selectAll(".areaJPN2").style("opacity", 0);
+        svg.selectAll(".areaRUS2").style("opacity", 0);
+        svg.selectAll(".areaKOR2").style("opacity", 0);
+      }
+
+    else  if (selectValue == "EU") { // user selected somting
+        console.log("hi");
+        svg.selectAll(".areaEU").style("opacity", 1);
+        svg.selectAll(".areaUSA").style("opacity", 0);
+        svg.selectAll(".areaNZL").style("opacity", 0);
+        svg.selectAll(".areaCAN").style("opacity", 0);
+        svg.selectAll(".areaFRA").style("opacity", 0);
+        svg.selectAll(".areaJPN").style("opacity", 0);
+        svg.selectAll(".areaRUS").style("opacity", 0);
+        svg.selectAll(".areaKOR").style("opacity", 0);
+
+        svg.selectAll(".areaEU2").style("opacity", 1);
+        svg.selectAll(".areaUSA2").style("opacity", 0);
+        svg.selectAll(".areaNZL2").style("opacity", 0);
+        svg.selectAll(".areaCAN2").style("opacity", 0);
+        svg.selectAll(".areaFRA2").style("opacity", 0);
+        svg.selectAll(".areaJPN2").style("opacity", 0);
+        svg.selectAll(".areaRUS2").style("opacity", 0);
+        svg.selectAll(".areaKOR2").style("opacity", 0);
+      }
+
+    else  if (selectValue == "JPN") { // user selected somting
+        console.log("hi");
+        svg.selectAll(".areaJPN").style("opacity", 1);
+        svg.selectAll(".areaUSA").style("opacity", 0);
+        svg.selectAll(".areaNZL").style("opacity", 0);
+        svg.selectAll(".areaCAN").style("opacity", 0);
+        svg.selectAll(".areaFRA").style("opacity", 0);
+        svg.selectAll(".areaEU").style("opacity", 0);
+        svg.selectAll(".areaRUS").style("opacity", 0);
+        svg.selectAll(".areaKOR").style("opacity", 0);
+
+        svg.selectAll(".areaJPN2").style("opacity", 1);
+        svg.selectAll(".areaUSA2").style("opacity", 0);
+        svg.selectAll(".areaNZL2").style("opacity", 0);
+        svg.selectAll(".areaCAN2").style("opacity", 0);
+        svg.selectAll(".areaFRA2").style("opacity", 0);
+        svg.selectAll(".areaEU2").style("opacity", 0);
+        svg.selectAll(".areaRUS2").style("opacity", 0);
+        svg.selectAll(".areaKOR2").style("opacity", 0);
+      }
+
+    else  if (selectValue == "RUS") { // user selected somting
+        console.log("hi");
+        svg.selectAll(".areaRUS").style("opacity", 1);
+        svg.selectAll(".areaUSA").style("opacity", 0);
+        svg.selectAll(".areaNZL").style("opacity", 0);
+        svg.selectAll(".areaCAN").style("opacity", 0);
+        svg.selectAll(".areaFRA").style("opacity", 0);
+        svg.selectAll(".areaEU").style("opacity", 0);
+        svg.selectAll(".areaJPN").style("opacity", 0);
+        svg.selectAll(".areaKOR").style("opacity", 0);
+
+        svg.selectAll(".areaRUS2").style("opacity", 1);
+        svg.selectAll(".areaUSA2").style("opacity", 0);
+        svg.selectAll(".areaNZL2").style("opacity", 0);
+        svg.selectAll(".areaCAN2").style("opacity", 0);
+        svg.selectAll(".areaFRA2").style("opacity", 0);
+        svg.selectAll(".areaEU2").style("opacity", 0);
+        svg.selectAll(".areaJPN2").style("opacity", 0);
+        svg.selectAll(".areaKOR2").style("opacity", 0);
+      }
+
+    else  if (selectValue == "KOR") { // user selected somting
+        console.log("hi");
+        svg.selectAll(".areaKOR").style("opacity", 1);
+        svg.selectAll(".areaUSA").style("opacity", 0);
+        svg.selectAll(".areaNZL").style("opacity", 0);
+        svg.selectAll(".areaCAN").style("opacity", 0);
+        svg.selectAll(".areaFRA").style("opacity", 0);
+        svg.selectAll(".areaEU").style("opacity", 0);
+        svg.selectAll(".areaRUS").style("opacity", 0);
+        svg.selectAll(".areaJPN").style("opacity", 0);
+
+        svg.selectAll(".areaKOR2").style("opacity", 1);
+        svg.selectAll(".areaUSA2").style("opacity", 0);
+        svg.selectAll(".areaNZL2").style("opacity", 0);
+        svg.selectAll(".areaCAN2").style("opacity", 0);
+        svg.selectAll(".areaFRA2").style("opacity", 0);
+        svg.selectAll(".areaEU2").style("opacity", 0);
+        svg.selectAll(".areaRUS2").style("opacity", 0);
+        svg.selectAll(".areaJPN2").style("opacity", 0);
+      }
+
+      else  if (selectValue == "ALL") { // user selected somting
+          console.log("hi");
+          svg.selectAll(".areaKOR").style("opacity", 1);
+          svg.selectAll(".areaUSA").style("opacity", 1);
+          svg.selectAll(".areaNZL").style("opacity", 1);
+          svg.selectAll(".areaCAN").style("opacity", 1);
+          svg.selectAll(".areaFRA").style("opacity", 1);
+          svg.selectAll(".areaEU").style("opacity", 1);
+          svg.selectAll(".areaRUS").style("opacity", 1);
+          svg.selectAll(".areaJPN").style("opacity", 1);
+
+          svg.selectAll(".areaKOR2").style("opacity", 1);
+          svg.selectAll(".areaUSA2").style("opacity", 1);
+          svg.selectAll(".areaNZL2").style("opacity", 1);
+          svg.selectAll(".areaCAN2").style("opacity", 1);
+          svg.selectAll(".areaFRA2").style("opacity", 1);
+          svg.selectAll(".areaEU2").style("opacity", 1);
+          svg.selectAll(".areaRUS2").style("opacity", 1);
+          svg.selectAll(".areaJPN2").style("opacity", 1);
+        }
+}
+
+
+
     function type(d) {
         d.time = parseDate(d.time);
         // if(country[] == "ALL") {
@@ -936,26 +768,9 @@
           d.RUSavg = +d.RUSavg;
           d.KORavg = +d.KORavg;
           d.empty = +d.empty;
-       // }
-
-      //  if(selectValue == "USA") {
-      //    d.USAavg = +d.USAavg;
-      //    d.NZLavg = +d.empty;
-      //    d.CANavg = +d.empty;
-      //    d.FRAavg = +d.empty;
-      //    d.EUavg = +d.empty;
-      //    d.JPNavg = +d.empty;
-      //    d.RUSavg = +d.empty;
-      //    d.KORavg = +d.empty;
-      // }
-
-        // if(country[] == "USA") {
-        //   d.USAavg = +d.USAavg;
-        // }
 
         return d;
     }
-
 
 </script>
 
@@ -1022,7 +837,7 @@
   });
 </script> -->
 
-<script>
+<!-- <script>
 var pie = new d3pie("pieChart", {
 	"header": {
 		"title": {
@@ -1107,6 +922,6 @@ var pie = new d3pie("pieChart", {
 	},
 	"callbacks": {}
 });
-</script>
+</script> -->
 
 </html>

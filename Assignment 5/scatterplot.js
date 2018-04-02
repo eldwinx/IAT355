@@ -105,8 +105,38 @@ var scatterChart = function(options) {
       .attr("r", function(d) {
         return 4;
       })
+
+
+      // if(d['country'] == 'USA') {
+      //   .style("fill", "#4292c6")
+      // }
       .attr("opacity", 0.7)
-      .style("fill", "#4292c6");
+      .style("fill", function(d){
+        if(d.country == "USA")
+          return "#ff4000";
+
+        if(d.country == "NZL")
+          return "#ffbf00";
+
+        if(d.country == "CAN")
+          return "#ffff00";
+
+        if(d.country == "FRA")
+          return "#80ff00";
+
+        if(d.country == "CZE") //change to EU
+          return "#00bfff";
+
+        if(d.country == "AUS") //change to JPN
+          return "#ff00ff";
+
+        if(d.country == "ESP") //change to RUS
+          return "#000000";
+
+        if(d.country == "KOR")
+          return "#f8c6a1";
+        }
+      );
 
     svg.append("g")
       .call(brush);
