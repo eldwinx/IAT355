@@ -111,32 +111,31 @@ var scatterChart = function(options) {
       //   .style("fill", "#4292c6")
       // }
       .attr("opacity", 0.7)
-      .style("fill", function(d){
-        if(d.country == "USA")
+      .style("fill", function(d) {
+        if (d.country == "USA")
           return "#ff4000";
 
-        if(d.country == "NZL")
+        if (d.country == "NZL")
           return "#ffbf00";
 
-        if(d.country == "CAN")
+        if (d.country == "CAN")
           return "#ffff00";
 
-        if(d.country == "FRA")
+        if (d.country == "FRA")
           return "#80ff00";
 
-        if(d.country == "CZE") //change to EU
+        if (d.country == "EU") //change to EU
           return "#00bfff";
 
-        if(d.country == "AUS") //change to JPN
+        if (d.country == "JPN") //change to JPN
           return "#ff00ff";
 
-        if(d.country == "ESP") //change to RUS
+        if (d.country == "RUS") //change to RUS
           return "#000000";
 
-        if(d.country == "KOR")
+        if (d.country == "KOR")
           return "#f8c6a1";
-        }
-      );
+      });
 
     svg.append("g")
       .call(brush);
