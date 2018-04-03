@@ -10,8 +10,38 @@
   <script src="http://d3js.org/d3.v3.js"></script>
   <script src="http://d3pie.min.js"></script>
 
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500" rel="stylesheet">
+
   <title> Employment Rate Of Different Countries </title>
   <style>
+
+
+  html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    outline: none;
+    -webkit-text-size-adjust: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+    font-weight:400;
+  }
+
+html{
+  font-family: 'Montserrat', sans-serif;
+  font-weight:400;
+}
+  body{
+    background-color:#d3d3d3;
+    width:80%;
+
+    margin:0 auto;
+  }
     .brushed {
       fill: orange;
       stroke: darkorange;
@@ -99,23 +129,37 @@
       pointer-events: all;
     }
 
-    #barchart {
-      width: 90%;
-    }
 
     .key-dot {
-      display: inline-block;
-      height: 10px;
-      margin-right: .5em;
-      width: 10px;
+
+      height: 50px;
+      width: 40px;
+float:left;
     }
 
     .country-name {
-      margin: 0 !important;
+float:left;
+padding:17px;
+width:50px;
+
     }
 
     .legend {
-      margin-right: 20px;
+      /* margin-right: 20px; */
+    }
+
+    .legend1 {
+     background-color: white;
+     width:134px;
+     float:left;
+     margin-right: 20px;
+     height:50px;
+      box-shadow: 4px 4px 10px grey;
+    }
+
+    .legend> div:last-child
+    {
+        margin-right:0;
     }
 
     .USA {
@@ -149,42 +193,92 @@
     .KOR {
       background: #f8c6a1;
     }
+
+    .chart{
+      background-color: white;
+    }
+
+    #sortButton{
+      position:absolute;
+      top:200px;
+      left:200px;
+    }
+
+    .title{
+      font-size: 1.5rem;
+      color:black;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      float: left;
+      width:100%;
+      background-color: white;
+      padding-left: 2rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    }
+
+    .select{
+      float:right;
+      position:absolute;
+      top:45px;
+      left:1200px;
+      /* box-shadow: 4px 4px 10px grey; */
+      width: 150px;
+      height: 35px;
+      padding-left: 10px;
+    }
+
+
   </style>
 
 
 </head>
 
 <body>
+
+<div class="title">Does Education Help Students Get Employed?</div>
   <button id="sortButton" type="button">Sort value </button>
 
-  <div class="chart" id="barchart"></div>
-  <div class="legend1">
-    <h3>Legend</h3>
+  <div class="legend">
     <div class="legend1">
-      <p class="country-name"><span class="key-dot USA"></span>USA</p>
+      <div class="key-dot USA"></div>
+      <p class="country-name">USA</p>
     </div>
     <div class="legend1">
-      <p class="country-name"><span class="key-dot NZL"></span>NZL</p>
+      <div class="key-dot NZL"></div>
+      <p class="country-name">NZL</p>
     </div>
     <div class="legend1">
-      <p class="country-name"><span class="key-dot CAN"></span>CAN</p>
+      <div class="key-dot CAN"></div>
+      <p class="country-name">CAN</p>
     </div>
     <div class="legend1">
-      <p class="country-name"><span class="key-dot FRA"></span>FRA</p>
+      <div class="key-dot FRA"></div>
+      <p class="country-name">FRA</p>
     </div>
     <div class="legend1">
-      <p class="country-name"><span class="key-dot EU"></span>EU</p>
+      <div class="key-dot EU"></div>
+      <p class="country-name">EU</p>
     </div>
     <div class="legend1">
-      <p class="country-name"><span class="key-dot JPN"></span>JPN</p>
+      <div class="key-dot JPN"></div>
+      <p class="country-name">JPN</p>
     </div>
     <div class="legend1">
-      <p class="country-name"><span class="key-dot KOR"></span>KOR</p>
+      <div class="key-dot KOR"></div>
+      <p class="country-name">KOR</p>
     </div>
     <div class="legend1">
-      <p class="country-name"><span class="key-dot RUS"></span>RUS</p>
+      <div class="key-dot RUS"></div>
+      <p class="country-name">RUS</p>
     </div>
   </div>
+
+  <div class="chart" id="barchart"></div>
+  <script>
+  </script>
+
+
 
   <div class="chart" id="chart"></div>
   <div class="chart" id="chart2"></div>
@@ -321,12 +415,15 @@
         scatterchart.highlightcountry(selection);
         scatterchart2.highlightcountry(selection);
         scatterchart3.highlightcountry(selection);
+        update(selection);
+        console.log(selection);
       }
 
       bargraph.onDblClick = function(selection) {
         scatterchart.highlightcountry();
         scatterchart2.highlightcountry();
         scatterchart3.highlightcountry();
+        updateAll();
       }
 
       $("#sortButton").click(function(evt) {
@@ -373,6 +470,14 @@
   function onchange() {
     selectValue = d3.select('select').property('value')
     update(selectValue);
+    scatterchart.highlightcountry(selectValue);
+    scatterchart2.highlightcountry(selectValue);
+    scatterchart3.highlightcountry(selectValue);
+    if(selectValue=="ALL"){
+      scatterchart.highlightcountry();
+      scatterchart2.highlightcountry();
+      scatterchart3.highlightcountry();
+    }
     d3.select('body')
       .append('p')
       .text(selectValue + ' is the last selected option.')
@@ -751,6 +856,27 @@
     focus.select(".areaKOR").attr("d", areaKOR);
     focus.select(".axis--x").call(xAxis);
 
+  }
+
+  function updateAll(){
+    console.log("hi");
+    svg.selectAll(".areaKOR").style("opacity", 1);
+    svg.selectAll(".areaUSA").style("opacity", 1);
+    svg.selectAll(".areaNZL").style("opacity", 1);
+    svg.selectAll(".areaCAN").style("opacity", 1);
+    svg.selectAll(".areaFRA").style("opacity", 1);
+    svg.selectAll(".areaEU").style("opacity", 1);
+    svg.selectAll(".areaRUS").style("opacity", 1);
+    svg.selectAll(".areaJPN").style("opacity", 1);
+
+    svg.selectAll(".areaKOR2").style("opacity", 1);
+    svg.selectAll(".areaUSA2").style("opacity", 1);
+    svg.selectAll(".areaNZL2").style("opacity", 1);
+    svg.selectAll(".areaCAN2").style("opacity", 1);
+    svg.selectAll(".areaFRA2").style("opacity", 1);
+    svg.selectAll(".areaEU2").style("opacity", 1);
+    svg.selectAll(".areaRUS2").style("opacity", 1);
+    svg.selectAll(".areaJPN2").style("opacity", 1);
   }
 
   function update(selectValue) {
