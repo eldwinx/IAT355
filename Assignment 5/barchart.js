@@ -2,13 +2,13 @@ var barChart = function(options) {
 
   // set the dimensions and margins of the graph
   var margin = {
-      top: 40,
+      top: 140,
       right: 20,
       bottom: 50,
       left: 100
     },
     width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+    height = 700 - margin.top - margin.bottom;
 
 
   // set the ranges

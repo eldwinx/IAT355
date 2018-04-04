@@ -55,11 +55,12 @@ var scatterChart = function(options) {
       .call(xAxis);
 
     svg.append("text")
-      .attr("x", 400)
-      .attr("y", 320)
+      .attr("x", 300)
+      .attr("y", 200)
       .attr("dy", "1em")
       .style("text-anchor", "end")
-      .text("Percentage of Population with Tertiary Education");
+      .style("font-size", "12px")
+      .text("Percentage of Population");
 
     svg.append("g")
       .attr("class", "y axis")
@@ -68,27 +69,28 @@ var scatterChart = function(options) {
 
     svg.append("text")
       .attr("transform", "rotate(-90)")
-      .attr("x", -20)
+      .attr("x", -40)
       .attr("y", 10)
       .attr("dy", "1em")
       .style("text-anchor", "end")
-      .text("Employment Percentage with Tertiary Education");
+      .style("font-size", "12px")
+      .text("Employment Percentage");
 
     //draw title
     svg.append("text")
-      .attr("x", 250)
+      .attr("x", 220)
       .attr("y", 30)
       .attr("dy", "1em")
       .style("text-anchor", "middle")
-      .style("font-size", "18px")
+      .style("font-size", "14px")
       .text("Tertiary Education ");
 
     svg.append("text")
-      .attr("x", 250)
+      .attr("x", 220)
       .attr("y", 10)
       .attr("dy", "1em")
       .style("text-anchor", "middle")
-      .style("font-size", "18px")
+      .style("font-size", "14px")
       .text("Employment rate:");
 
     circles = svg.selectAll("circle.points")

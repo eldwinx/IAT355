@@ -14,34 +14,114 @@
 
   <title> Employment Rate Of Different Countries </title>
   <style>
+    html,
+    body,
+    div,
+    span,
+    applet,
+    object,
+    iframe,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    blockquote,
+    pre,
+    a,
+    abbr,
+    acronym,
+    address,
+    big,
+    cite,
+    code,
+    del,
+    dfn,
+    em,
+    img,
+    ins,
+    kbd,
+    q,
+    s,
+    samp,
+    small,
+    strike,
+    strong,
+    sub,
+    sup,
+    tt,
+    var,
+    b,
+    u,
+    i,
+    center,
+    dl,
+    dt,
+    dd,
+    ol,
+    ul,
+    li,
+    fieldset,
+    form,
+    label,
+    legend,
+    table,
+    caption,
+    tbody,
+    tfoot,
+    thead,
+    tr,
+    th,
+    td,
+    article,
+    aside,
+    canvas,
+    details,
+    embed,
+    figure,
+    figcaption,
+    footer,
+    header,
+    hgroup,
+    menu,
+    nav,
+    output,
+    ruby,
+    section,
+    summary,
+    time,
+    mark,
+    audio,
+    video {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      font-size: 100%;
+      font: inherit;
+      vertical-align: baseline;
+      outline: none;
+      -webkit-text-size-adjust: 100%;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 400;
+    }
 
+    html {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 400;
+    }
 
-  html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
-    outline: none;
-    -webkit-text-size-adjust: 100%;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    font-family: 'Montserrat', sans-serif;
-    font-weight:400;
-  }
+    body {
+      background-color: #d3d3d3;
+      width: 80%;
 
-html{
-  font-family: 'Montserrat', sans-serif;
-  font-weight:400;
-}
-  body{
-    background-color:#d3d3d3;
-    width:80%;
+      margin: 0 auto;
+    }
 
-    margin:0 auto;
-  }
     .brushed {
       fill: orange;
       stroke: darkorange;
@@ -134,32 +214,30 @@ html{
 
       height: 50px;
       width: 40px;
-float:left;
+      float: left;
     }
 
     .country-name {
-float:left;
-padding:17px;
-width:50px;
+      float: left;
+      padding: 17px;
+      width: 50px;
 
     }
 
-    .legend {
-      /* margin-right: 20px; */
-    }
+    .legend {}
 
     .legend1 {
-     background-color: white;
-     width:134px;
-     float:left;
-     margin-right: 20px;
-     height:50px;
+      background-color: white;
+      width: 134px;
+      float: left;
+      margin-right: 20px;
+      margin-bottom: 1rem;
+      height: 50px;
       box-shadow: 4px 4px 10px grey;
     }
 
-    .legend> div:last-child
-    {
-        margin-right:0;
+    .legend>div:last-child {
+      margin-right: 0;
     }
 
     .USA {
@@ -194,41 +272,58 @@ width:50px;
       background: #f8c6a1;
     }
 
-    .chart{
+    .chart {
       background-color: white;
+      float: left;
     }
 
-    #sortButton{
-      position:absolute;
-      top:200px;
-      left:200px;
+    #sortButton {
+      position: absolute;
+      top: 295px;
+      left: 180px;
     }
 
-    .title{
+    .title {
       font-size: 1.5rem;
-      color:black;
+      color: black;
       margin-top: 1rem;
       margin-bottom: 1rem;
       float: left;
-      width:100%;
+      width: 100%;
       background-color: white;
       padding-left: 2rem;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+      padding-top: 2rem;
+      padding-bottom: 2rem;
     }
 
-    .select{
-      float:right;
-      position:absolute;
-      top:45px;
-      left:1200px;
+    .select {
+      float: right;
+      position: absolute;
+      top: 45px;
+      left: 1200px;
       /* box-shadow: 4px 4px 10px grey; */
       width: 150px;
       height: 35px;
       padding-left: 10px;
     }
 
+    #barchart {
+      margin-bottom: 1rem;
+      margin-right: 1rem;
+      height: 732px;
+    }
 
+    #chart {
+      margin-bottom: 1rem;
+    }
+
+    #chart2 {
+      margin-bottom: 1rem;
+    }
+
+    .chart {
+      box-shadow: 4px 4px 10px grey;
+    }
   </style>
 
 
@@ -236,7 +331,7 @@ width:50px;
 
 <body>
 
-<div class="title">Does Education Help Students Get Employed?</div>
+  <div class="title">Does Education Help Students Get Employed?</div>
   <button id="sortButton" type="button">Sort value </button>
 
   <div class="legend">
@@ -375,16 +470,16 @@ width:50px;
   var url = "http://www.sfu.ca/~wadel/iat355/EDEmployment.csv";
 
   var scatterchart = scatterChart()
-    .width(500)
-    .height(350);
+    .width(426)
+    .height(230);
 
   var scatterchart2 = scatterChart2()
-    .width(500)
-    .height(350);
+    .width(426)
+    .height(230);
 
   var scatterchart3 = scatterChart3()
-    .width(500)
-    .height(350);
+    .width(426)
+    .height(230);
   var parseTime = d3.timeParse("%Y");
   var bargraph = new barChart().width(650).height(350);
 
@@ -473,7 +568,7 @@ width:50px;
     scatterchart.highlightcountry(selectValue);
     scatterchart2.highlightcountry(selectValue);
     scatterchart3.highlightcountry(selectValue);
-    if(selectValue=="ALL"){
+    if (selectValue == "ALL") {
       scatterchart.highlightcountry();
       scatterchart2.highlightcountry();
       scatterchart3.highlightcountry();
@@ -858,7 +953,7 @@ width:50px;
 
   }
 
-  function updateAll(){
+  function updateAll() {
     console.log("hi");
     svg.selectAll(".areaKOR").style("opacity", 1);
     svg.selectAll(".areaUSA").style("opacity", 1);
