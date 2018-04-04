@@ -583,16 +583,16 @@
 
   var svg = d3.select("svg"),
     margin = {
-      top: 20,
-      right: 20,
-      bottom: 110,
-      left: 40
+      top: 90,
+      right: 50,
+      bottom: 160,
+      left: 100
     },
     margin2 = {
-      top: 375,
-      right: 20,
-      bottom: 30,
-      left: 40
+      top: 320,
+      right: 50,
+      bottom: 80,
+      left: 100
     },
     width = +svg.attr("width") - margin.left - margin.right,
     height = +svg.attr("height") - margin.top - margin.bottom,
@@ -882,9 +882,35 @@
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis);
 
+      focus.append("text")
+        .attr("x", 310)
+        .attr("y", 320)
+        .attr("dy", "1em")
+        .style("text-anchor", "end")
+        .style("font-size", "18px")
+        .text("Years");
+
     focus.append("g")
       .attr("class", "axis axis--y")
       .call(yAxis);
+
+      focus.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("x", 10)
+        .attr("y", -50)
+        .attr("dy", "1em")
+        .style("text-anchor", "end")
+        .style("font-size", "18px")
+        .text("Employment Percentage");
+
+
+        focus.append("text")
+          .attr("x", 260)
+          .attr("y", -40)
+          .attr("dy", "1em")
+          .style("text-anchor", "middle")
+          .style("font-size", "20px")
+          .text("Title");
 
     context.append("path")
       .datum(data)
