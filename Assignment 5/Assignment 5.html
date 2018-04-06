@@ -118,9 +118,6 @@
 
     body {
       background-color: #d3d3d3;
-      width: 80%;
-
-      margin: 0 auto;
     }
 
     .brushed {
@@ -234,7 +231,7 @@
       margin-right: 20px;
       margin-bottom: 1rem;
       height: 50px;
-      box-shadow: 4px 4px 10px grey;
+      /* box-shadow: 4px 4px 10px grey; */
     }
 
     .legend>div:last-child {
@@ -279,9 +276,9 @@
     }
 
     #sortButton {
-      position: absolute;
-      top: 295px;
-      left: 180px;
+      position: relative;
+      top: 190px;
+      left: 30px;
     }
 
     .title {
@@ -301,7 +298,7 @@
       float: right;
       position: absolute;
       top: 45px;
-      left: 1200px;
+      left: 77%;
       /* box-shadow: 4px 4px 10px grey; */
       width: 150px;
       height: 35px;
@@ -322,8 +319,39 @@
       margin-bottom: 1rem;
     }
 
+    #chart4 {
+      margin-right: 1rem;
+      margin-bottom: 1rem;
+    }
+
     .chart {
       box-shadow: 4px 4px 10px grey;
+    }
+
+    .content {
+      width: 1215px;
+      margin: 0 auto;
+    }
+
+    .footer {
+      float: left;
+      background-color: white;
+      padding-left: 2rem;
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+      width: 99.7%;
+      box-shadow: 4px 4px 10px grey;
+
+    }
+
+    p1 {
+      font-size: 1.2rem;
+    }
+
+    @media (max-width: 1215px) {
+      .select {
+        left: 1000px;
+      }
     }
   </style>
 
@@ -331,62 +359,62 @@
 </head>
 
 <body>
+  <div class="content">
+    <div class="title">Does Education Help Students Get Employed?</div>
+    <button id="sortButton" type="button">Sort value </button>
 
-  <div class="title">Does Education Help Students Get Employed?</div>
-  <button id="sortButton" type="button">Sort value </button>
+    <div class="legend">
+      <div class="legend1">
+        <div class="key-dot USA"></div>
+        <p class="country-name">USA</p>
+      </div>
+      <div class="legend1">
+        <div class="key-dot NZL"></div>
+        <p class="country-name">NZL</p>
+      </div>
+      <div class="legend1">
+        <div class="key-dot CAN"></div>
+        <p class="country-name">CAN</p>
+      </div>
+      <div class="legend1">
+        <div class="key-dot FRA"></div>
+        <p class="country-name">FRA</p>
+      </div>
+      <div class="legend1">
+        <div class="key-dot EU"></div>
+        <p class="country-name">EU</p>
+      </div>
+      <div class="legend1">
+        <div class="key-dot JPN"></div>
+        <p class="country-name">JPN</p>
+      </div>
+      <div class="legend1">
+        <div class="key-dot KOR"></div>
+        <p class="country-name">KOR</p>
+      </div>
+      <div class="legend1">
+        <div class="key-dot RUS"></div>
+        <p class="country-name">RUS</p>
+      </div>
+    </div>
 
-  <div class="legend">
-    <div class="legend1">
-      <div class="key-dot USA"></div>
-      <p class="country-name">USA</p>
+    <div class="chart" id="barchart"></div>
+    <div class="chart" id="chart"></div>
+    <div class="chart" id="chart2"></div>
+    <div class="chart" id="chart3"></div>
+
+    <div class="chart" id="chart4">
+      <svg width="770" height="450"></svg>
     </div>
-    <div class="legend1">
-      <div class="key-dot NZL"></div>
-      <p class="country-name">NZL</p>
+
+    <div class="chart" id="chart5">
     </div>
-    <div class="legend1">
-      <div class="key-dot CAN"></div>
-      <p class="country-name">CAN</p>
-    </div>
-    <div class="legend1">
-      <div class="key-dot FRA"></div>
-      <p class="country-name">FRA</p>
-    </div>
-    <div class="legend1">
-      <div class="key-dot EU"></div>
-      <p class="country-name">EU</p>
-    </div>
-    <div class="legend1">
-      <div class="key-dot JPN"></div>
-      <p class="country-name">JPN</p>
-    </div>
-    <div class="legend1">
-      <div class="key-dot KOR"></div>
-      <p class="country-name">KOR</p>
-    </div>
-    <div class="legend1">
-      <div class="key-dot RUS"></div>
-      <p class="country-name">RUS</p>
+
+    <div class="footer">
+      <p1>IAT 355 Introduction to Visual Analytics: Final Project </p1>
+      <p>By: Wade Liu, Eldwin Xu</p>
     </div>
   </div>
-
-  <div class="chart" id="barchart"></div>
-
-
-  <script>
-  </script>
-
-
-
-  <div class="chart" id="chart"></div>
-  <div class="chart" id="chart2"></div>
-  <div class="chart" id="chart3"></div>
-  <div class="chart" id="chart4">
-    <svg width="780" height="450"></svg>
-  </div>
-  <div class="chart" id="chart5">
-  </div>
-
 </body>
 <script src="scatterplot.js"></script>
 <script src="scatterplot2.js"></script>
@@ -810,35 +838,35 @@
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis);
 
-      focus.append("text")
-        .attr("x", 310)
-        .attr("y", 320)
-        .attr("dy", "1em")
-        .style("text-anchor", "end")
-        .style("font-size", "18px")
-        .text("Years");
+    focus.append("text")
+      .attr("x", 310)
+      .attr("y", 320)
+      .attr("dy", "1em")
+      .style("text-anchor", "end")
+      .style("font-size", "18px")
+      .text("Years");
 
     focus.append("g")
       .attr("class", "axis axis--y")
       .call(yAxis);
 
-      focus.append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("x", 10)
-        .attr("y", -50)
-        .attr("dy", "1em")
-        .style("text-anchor", "end")
-        .style("font-size", "18px")
-        .text("Employment Percentage");
+    focus.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("x", 10)
+      .attr("y", -50)
+      .attr("dy", "1em")
+      .style("text-anchor", "end")
+      .style("font-size", "18px")
+      .text("Employment Percentage");
 
 
-        focus.append("text")
-          .attr("x", 260)
-          .attr("y", -40)
-          .attr("dy", "1em")
-          .style("text-anchor", "middle")
-          .style("font-size", "20px")
-          .text("Title");
+    focus.append("text")
+      .attr("x", 280)
+      .attr("y", -50)
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .style("font-size", "20px")
+      .text("Average Employment Rate");
 
     context.append("path")
       .datum(data)
@@ -1124,211 +1152,350 @@
     return d;
   }
 
-/*pie diagram*/
-var w = 600,                        //width
-  h = 600,                            //height
-  r = 200,                            //radius
-  color = d3.scale.category20c();     //builtin range of colors
+  /*pie diagram*/
+  var w = 426, //width
+    h = 450, //height
+    r = 180, //radius
+    color = d3.scale.category20c(); //builtin range of colors
 
 
 
 
-  data = [{"label":"University", "value":37.81355 },
-          {"label":"Secondary", "value":40.72356},
-          {"label":"Below Secondary", "value":21.46289}];
+  data = [{
+      "label": "University",
+      "value": 37.81355
+    },
+    {
+      "label": "Secondary",
+      "value": 40.72356
+    },
+    {
+      "label": "Below Secondary",
+      "value": 21.46289
+    }
+  ];
 
-            var vis = d3.select("#chart5")
-                .append("svg:svg")
-                .data([data])
-                    .attr("width", w)
-                    .attr("height", h)
-                .append("svg:g")
-                    .attr("transform", "translate(" + w/2 + "," + h/2 + ")")
-
-
-            var arc = d3.svg.arc()
-                .outerRadius(r);
-
-            var pie = d3.layout.pie()
-                .value(function(d) { return d.value; });
-
-            var arcs = vis.selectAll("g.slice")
-                .data(pie)
-                .enter()
-                    .append("svg:g")
-                        .attr("class", "slice");
-
-                arcs.append("svg:path")
-                        .attr("fill", function(d, i) { return color(i); } )
-                        .attr("d", arc);
-
-                arcs.append("svg:text")
-                        .attr("transform", function(d) {
-
-                        d.innerRadius = 0;
-                        d.outerRadius = r;
-                        return "translate(" + arc.centroid(d) + ")";
-                    })
-                    .attr("text-anchor", "middle")
-                    .text(function(d, i) { return data[i].label+": "+data[i].value; });
-                    // .text(function(d, i) { return data[i].value; });
+  var vis = d3.select("#chart5")
+    .append("svg:svg")
+    .data([data])
+    .attr("width", w)
+    .attr("height", h)
+    .append("svg:g")
+    .attr("transform", "translate(" + w / 2 + "," + 250 + ")")
 
 
-    function updatePie(selectValue) {
-        console.log(data);
-              if (selectValue == "USA") {
-                data = [{"label":"University", "value":38.897 },
-                        {"label":"Secondary", "value":48.898},
-                        {"label":"Below Secondary", "value":12.205}];
-              }
+  var arc = d3.svg.arc()
+    .outerRadius(r);
 
-              if (selectValue == "NZL") {
-                data = [{"label":"University", "value":31.8718 },
-                        {"label":"Secondary", "value":36.4035},
-                        {"label":"Below Secondary", "value":31.7247}];
-              }
+  var pie = d3.layout.pie()
+    .value(function(d) {
+      return d.value;
+    });
 
-              if (selectValue == "CAN") {
-                data = [{"label":"University", "value":44.9014 },
-                        {"label":"Secondary", "value":39},
-                        {"label":"Below Secondary", "value":16.0986}];
-              }
+  var arcs = vis.selectAll("g.slice")
+    .data(pie)
+    .enter()
+    .append("svg:g")
+    .attr("class", "slice");
 
-              if (selectValue == "FRA") {
-                data = [{"label":"University", "value":25.2363 },
-                        {"label":"Secondary", "value":41.2868},
-                        {"label":"Below Secondary", "value":33.4769}];
-              }
+  arcs.append("text")
+    .attr("x", 0)
+    .attr("y", -220)
+    .attr("dy", "1em")
+    .style("text-anchor", "middle")
+    .style("font-size", "18px")
+    .text("Average Education Level");
 
-              if (selectValue == "EU") {
-                data = [{"label":"University", "value":36.1652 },
-                        {"label":"Secondary", "value":36.5693},
-                        {"label":"Below Secondary", "value":27.2655}];
-              }
+  arcs.append("svg:path")
+    .attr("fill", function(d, i) {
+      return color(i);
+    })
+    .attr("d", arc);
 
-              if (selectValue == "JPN") {
-                data = [{"label":"University", "value":40.7046 },
-                        {"label":"Secondary", "value":42.6088},
-                        {"label":"Below Secondary", "value":16.6866}];
-              }
+  arcs.append("svg:text")
+    .attr("transform", function(d) {
 
-              if (selectValue == "KOR") {
-                data = [{"label":"University", "value":32.3865 },
-                        {"label":"Secondary", "value":41.6102},
-                        {"label":"Below Secondary", "value":26.0033}];
-              }
-
-              if (selectValue == "RUS") {
-                data = [{"label":"University", "value":52.3456 },
-                        {"label":"Secondary", "value":39.4119},
-                        {"label":"Below Secondary", "value":8.2425}];
-              }
-
-              if (selectValue == "ALL") {
-                data = [{"label":"University", "value":37.81355 },
-                        {"label":"Secondary", "value":40.72356},
-                        {"label":"Below Secondary", "value":21.46289}];
-              }
+      d.innerRadius = 0;
+      d.outerRadius = r;
+      return "translate(" + arc.centroid(d) + ")";
+    })
+    .attr("text-anchor", "middle")
+    .text(function(d, i) {
+      return data[i].label + ": " + data[i].value;
+    });
+  // .text(function(d, i) { return data[i].value; });
 
 
+  function updatePie(selectValue) {
+    console.log(data);
+    if (selectValue == "USA") {
+      data = [{
+          "label": "University",
+          "value": 38.897
+        },
+        {
+          "label": "Secondary",
+          "value": 48.898
+        },
+        {
+          "label": "Below Secondary",
+          "value": 12.205
+        }
+      ];
+    }
 
-              var vis = d3.select("#chart5").select("svg")
-                  .remove();
+    if (selectValue == "NZL") {
+      data = [{
+          "label": "University",
+          "value": 31.8718
+        },
+        {
+          "label": "Secondary",
+          "value": 36.4035
+        },
+        {
+          "label": "Below Secondary",
+          "value": 31.7247
+        }
+      ];
+    }
 
-                  var vis = d3.select("#chart5").select("p")
-                      .remove();
+    if (selectValue == "CAN") {
+      data = [{
+          "label": "University",
+          "value": 44.9014
+        },
+        {
+          "label": "Secondary",
+          "value": 39
+        },
+        {
+          "label": "Below Secondary",
+          "value": 16.0986
+        }
+      ];
+    }
 
-                var vis = d3.select("#chart5")
-                    .append("svg:svg")
-                    .data([data])
-                        .attr("width", w)
-                        .attr("height", h)
-                    .append("svg:g")
-                        .attr("transform", "translate(" + w/2 + "," + h/2 + ")")
+    if (selectValue == "FRA") {
+      data = [{
+          "label": "University",
+          "value": 25.2363
+        },
+        {
+          "label": "Secondary",
+          "value": 41.2868
+        },
+        {
+          "label": "Below Secondary",
+          "value": 33.4769
+        }
+      ];
+    }
+
+    if (selectValue == "EU") {
+      data = [{
+          "label": "University",
+          "value": 36.1652
+        },
+        {
+          "label": "Secondary",
+          "value": 36.5693
+        },
+        {
+          "label": "Below Secondary",
+          "value": 27.2655
+        }
+      ];
+    }
+
+    if (selectValue == "JPN") {
+      data = [{
+          "label": "University",
+          "value": 40.7046
+        },
+        {
+          "label": "Secondary",
+          "value": 42.6088
+        },
+        {
+          "label": "Below Secondary",
+          "value": 16.6866
+        }
+      ];
+    }
+
+    if (selectValue == "KOR") {
+      data = [{
+          "label": "University",
+          "value": 32.3865
+        },
+        {
+          "label": "Secondary",
+          "value": 41.6102
+        },
+        {
+          "label": "Below Secondary",
+          "value": 26.0033
+        }
+      ];
+    }
+
+    if (selectValue == "RUS") {
+      data = [{
+          "label": "University",
+          "value": 52.3456
+        },
+        {
+          "label": "Secondary",
+          "value": 39.4119
+        },
+        {
+          "label": "Below Secondary",
+          "value": 8.2425
+        }
+      ];
+    }
+
+    if (selectValue == "ALL") {
+      data = [{
+          "label": "University",
+          "value": 37.81355
+        },
+        {
+          "label": "Secondary",
+          "value": 40.72356
+        },
+        {
+          "label": "Below Secondary",
+          "value": 21.46289
+        }
+      ];
+    }
 
 
-                var arc = d3.svg.arc()
-                    .outerRadius(r);
 
-                var pie = d3.layout.pie()
-                    .value(function(d) { return d.value; });
+    var vis = d3.select("#chart5").select("svg")
+      .remove();
 
-                var arcs = vis.selectAll("g.slice")
-                    .data(pie)
-                    .enter()
-                        .append("svg:g")
-                            .attr("class", "slice");
+    var vis = d3.select("#chart5").select("p")
+      .remove();
 
-                    arcs.append("svg:path")
-                            .attr("fill", function(d, i) { return color(i); } )
-                            .attr("d", arc);
-
-                    arcs.append("svg:text")
-                            .attr("transform", function(d) {
-
-                            d.innerRadius = 0;
-                            d.outerRadius = r;
-                            return "translate(" + arc.centroid(d) + ")";
-                        })
-                        .attr("text-anchor", "middle")
-                        .text(function(d, i) { return data[i].label+": "+data[i].value; });
-
-                        d3.select('#chart5')
-                          .append('p')
-                          .text(selectValue + ' is the last selected option.');
-
-          }
+    var vis = d3.select("#chart5")
+      .append("svg:svg")
+      .data([data])
+      .attr("width", w)
+      .attr("height", h)
+      .append("svg:g")
+      .attr("transform", "translate(" + w / 2 + "," + 250 + ")")
 
 
-          function updatePieAll() {
-            data = [{"label":"University", "value":37.81355 },
-                    {"label":"Secondary", "value":40.72356},
-                    {"label":"Below Secondary", "value":21.46289}];
+    var arc = d3.svg.arc()
+      .outerRadius(r);
 
-                    var vis = d3.select("#chart5").select("svg")
-                        .remove();
+    var pie = d3.layout.pie()
+      .value(function(d) {
+        return d.value;
+      });
 
-                        var vis = d3.select("#chart5").select("p")
-                            .remove();
+    var arcs = vis.selectAll("g.slice")
+      .data(pie)
+      .enter()
+      .append("svg:g")
+      .attr("class", "slice");
 
-                      var vis = d3.select("#chart5")
-                          .append("svg:svg")
-                          .data([data])
-                              .attr("width", w)
-                              .attr("height", h)
-                          .append("svg:g")
-                              .attr("transform", "translate(" + w/2 + "," + h/2 + ")")
+    arcs.append("svg:path")
+      .attr("fill", function(d, i) {
+        return color(i);
+      })
+      .attr("d", arc);
 
+    arcs.append("text")
+      .attr("x", 0)
+      .attr("y", -220)
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .style("font-size", "18px")
+      .text("Average Education Level For: " + selectValue);
 
-                      var arc = d3.svg.arc()
-                          .outerRadius(r);
+    arcs.append("svg:text")
+      .attr("transform", function(d) {
 
-                      var pie = d3.layout.pie()
-                          .value(function(d) { return d.value; });
-
-                      var arcs = vis.selectAll("g.slice")
-                          .data(pie)
-                          .enter()
-                              .append("svg:g")
-                                  .attr("class", "slice");
-
-                          arcs.append("svg:path")
-                                  .attr("fill", function(d, i) { return color(i); } )
-                                  .attr("d", arc);
-
-                          arcs.append("svg:text")
-                                  .attr("transform", function(d) {
-
-                                  d.innerRadius = 0;
-                                  d.outerRadius = r;
-                                  return "translate(" + arc.centroid(d) + ")";
-                              })
-                              .attr("text-anchor", "middle")
-                              .text(function(d, i) { return data[i].label+": "+data[i].value; });
-                }
+        d.innerRadius = 0;
+        d.outerRadius = r;
+        return "translate(" + arc.centroid(d) + ")";
+      })
+      .attr("text-anchor", "middle")
+      .text(function(d, i) {
+        return data[i].label + ": " + data[i].value;
+      });
 
 
 
+  }
+
+
+  function updatePieAll() {
+    data = [{
+        "label": "University",
+        "value": 37.81355
+      },
+      {
+        "label": "Secondary",
+        "value": 40.72356
+      },
+      {
+        "label": "Below Secondary",
+        "value": 21.46289
+      }
+    ];
+
+    var vis = d3.select("#chart5").select("svg")
+      .remove();
+
+    var vis = d3.select("#chart5").select("p")
+      .remove();
+
+    var vis = d3.select("#chart5")
+      .append("svg:svg")
+      .data([data])
+      .attr("width", w)
+      .attr("height", h)
+      .append("svg:g")
+      .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")")
+
+
+    var arc = d3.svg.arc()
+      .outerRadius(r);
+
+    var pie = d3.layout.pie()
+      .value(function(d) {
+        return d.value;
+      });
+
+    var arcs = vis.selectAll("g.slice")
+      .data(pie)
+      .enter()
+      .append("svg:g")
+      .attr("class", "slice");
+
+    arcs.append("svg:path")
+      .attr("fill", function(d, i) {
+        return color(i);
+      })
+      .attr("d", arc);
+
+    arcs.append("svg:text")
+      .attr("transform", function(d) {
+
+        d.innerRadius = 0;
+        d.outerRadius = r;
+        return "translate(" + arc.centroid(d) + ")";
+      })
+      .attr("text-anchor", "middle")
+      .text(function(d, i) {
+        return data[i].label + ": " + data[i].value;
+      });
+  }
 </script>
 
 </html>
