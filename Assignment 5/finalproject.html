@@ -298,7 +298,7 @@
       float: right;
       position: absolute;
       top: 45px;
-      left: 77%;
+      left: 70%;
       /* box-shadow: 4px 4px 10px grey; */
       width: 150px;
       height: 35px;
@@ -445,7 +445,7 @@
 
       d['country'] = d['country'];
       d['time'] = d['time'];
-      d['EM_Try'] = +d['Em_Try'];
+      d['Em_Try'] = +d['Em_Try'];
       d['Em_Upp'] = +d['Em_Upp'];
       d['Em_Bupp'] = +d['Em_Bupp'];
       d['E_Avg'] = +d['E_Avg'];
@@ -478,7 +478,6 @@
         scatterchart3.highlightcountry();
         updateAll();
         updatePieAll();
-
       }
 
       $("#sortButton").click(function(evt) {
@@ -1155,14 +1154,14 @@
   /*pie diagram*/
   var w = 426, //width
     h = 450, //height
-    r = 180, //radius
+    r = 190, //radius
     color = d3.scale.category20c(); //builtin range of colors
 
 
 
 
   data = [{
-      "label": "University",
+      "label": "Post-Secondary",
       "value": 37.81355
     },
     {
@@ -1230,7 +1229,7 @@
     console.log(data);
     if (selectValue == "USA") {
       data = [{
-          "label": "University",
+          "label": "Post-Secondary",
           "value": 38.897
         },
         {
@@ -1246,7 +1245,7 @@
 
     if (selectValue == "NZL") {
       data = [{
-          "label": "University",
+          "label": "Post-Secondary",
           "value": 31.8718
         },
         {
@@ -1262,7 +1261,7 @@
 
     if (selectValue == "CAN") {
       data = [{
-          "label": "University",
+          "label": "Post-Secondary",
           "value": 44.9014
         },
         {
@@ -1278,7 +1277,7 @@
 
     if (selectValue == "FRA") {
       data = [{
-          "label": "University",
+          "label": "Post-Secondary",
           "value": 25.2363
         },
         {
@@ -1294,7 +1293,7 @@
 
     if (selectValue == "EU") {
       data = [{
-          "label": "University",
+          "label": "Post-Secondary",
           "value": 36.1652
         },
         {
@@ -1310,7 +1309,7 @@
 
     if (selectValue == "JPN") {
       data = [{
-          "label": "University",
+          "label": "Post-Secondary",
           "value": 40.7046
         },
         {
@@ -1326,7 +1325,7 @@
 
     if (selectValue == "KOR") {
       data = [{
-          "label": "University",
+          "label": "Post-Secondary",
           "value": 32.3865
         },
         {
@@ -1342,7 +1341,7 @@
 
     if (selectValue == "RUS") {
       data = [{
-          "label": "University",
+          "label": "Post-Secondary",
           "value": 52.3456
         },
         {
@@ -1358,7 +1357,7 @@
 
     if (selectValue == "ALL") {
       data = [{
-          "label": "University",
+          "label": "Post-Secondary",
           "value": 37.81355
         },
         {
@@ -1436,7 +1435,7 @@
 
   function updatePieAll() {
     data = [{
-        "label": "University",
+        "label": "Post-Secondary",
         "value": 37.81355
       },
       {
@@ -1461,7 +1460,7 @@
       .attr("width", w)
       .attr("height", h)
       .append("svg:g")
-      .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")")
+      .attr("transform", "translate(" + w / 2 + "," + 250 + ")")
 
 
     var arc = d3.svg.arc()
@@ -1477,6 +1476,14 @@
       .enter()
       .append("svg:g")
       .attr("class", "slice");
+
+    arcs.append("text")
+      .attr("x", 0)
+      .attr("y", -220)
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .style("font-size", "18px")
+      .text("Average Education Level");
 
     arcs.append("svg:path")
       .attr("fill", function(d, i) {

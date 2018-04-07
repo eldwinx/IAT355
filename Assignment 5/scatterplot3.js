@@ -55,12 +55,12 @@ var scatterChart3 = function(options) {
       .call(xAxis);
 
     svg.append("text")
-      .attr("x", 300)
+      .attr("x", 390)
       .attr("y", 200)
       .attr("dy", "1em")
       .style("text-anchor", "end")
       .style("font-size", "12px")
-      .text("Percentage of Population");
+      .text("Population Recevied This Level of Education (Pecentage)");
 
     svg.append("g")
       .attr("class", "y axis")
