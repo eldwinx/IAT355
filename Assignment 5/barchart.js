@@ -20,7 +20,7 @@ var barChart = function(options) {
   var keys, bars, x, y;
   var xAxis, yAxis;
 
-
+var selected;
   var SVGselection;
 
   function chart(selection, data) {
@@ -101,16 +101,31 @@ var barChart = function(options) {
       });
 
 
-
+selected=1;
     bars.on("click", function(d) {
 
+ // console.log(selected);
         var highlightkey = d.key;
+          // d3.selectAll("rect.bar").attr("fill", "teal");
+if (selected == 1){
+     d3.selectAll("rect.bar").attr("fill", "teal");
+    selected= 2;
+  d3.select(this)
+    .attr("fill", "orange");
+}
+else if(selected ==2){
+  d3.select(this)
+    .attr("fill", "orange");
+    selected = 1;
+}
+
+
 
         // remove previous selecitons ...
-        d3.selectAll("rect.bar").attr("fill", "teal");
-
-        d3.select(this)
-          .attr("fill", "orange");
+        // d3.selectAll("rect.bar").attr("fill", "teal");
+        //
+        // d3.select(this)
+        //   .attr("fill", "orange");
 
         chart.onClick(highlightkey);
 

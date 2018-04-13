@@ -1,16 +1,12 @@
-var scatterChart = function(options) {
-  var width = 600,
-    height = 400;
+var scatterChart4 = function(options) {
+  var width = 400,
+    height = 200;
   var margin = 60;
   var xdim = 'Ed_Try';
   var ydim = 'Em_Try';
-  var yeardim = 'time';
-
-
-  var scatclicked = 1;
-  // var length = 2; // user defined length
 
   var chartSelection, svg;
+
   var circles;;
 
   var xscale, yscale, xAxis, yAxis;
@@ -23,8 +19,6 @@ var scatterChart = function(options) {
       .attr("height", height);
 
     // create the scales
-
-    var y = d3.scaleLinear().range([height, 0]);
     var maxx = d3.max(dataset, function(d) {
       return d[xdim];
     });
@@ -88,7 +82,7 @@ var scatterChart = function(options) {
       .attr("dy", "1em")
       .style("text-anchor", "middle")
       .style("font-size", "14px")
-      .text("Post-Secondary Education");
+      .text("Secondary Education");
 
     svg.append("text")
       .attr("x", 220)
@@ -97,6 +91,7 @@ var scatterChart = function(options) {
       .style("text-anchor", "middle")
       .style("font-size", "14px")
       .text("Employment rate:");
+
 
     circles = svg.selectAll("circle.points")
       .data(dataset)
@@ -112,20 +107,7 @@ var scatterChart = function(options) {
       .attr("r", function(d) {
         return 4;
       })
-
-  //     .on("mouseover",
-  //     console.log("hello1")
-  //       // .text("Employment rate:");
-  //     )
-  // .on("mouseout",
-  //     console.log("hello2")
-  //       // .text("Employment rate:");
-  // )
-
-
-      // if(d['country'] == 'USA') {
-      //   .style("fill", "#4292c6")
-      // }
+      .attr("opacity", 0.7)
       .attr("opacity", 0.7)
       .style("fill", function(d) {
         if (d.country == "USA")
@@ -151,9 +133,7 @@ var scatterChart = function(options) {
 
         if (d.country == "KOR")
           return "#f8c6a1";
-      })
-
-
+      });
 
     svg.append("g")
       .call(brush);
@@ -185,64 +165,15 @@ var scatterChart = function(options) {
 
   function update(country) {
 
-
- //    d3.selectAll("rect.bar").attr("fill", "teal");
- //   selected= 2;
- // d3.select(this)
- //   .attr("fill", "orange");
-    console.log(country);
-    // d3.selectAll('circle.points').attr("opacity","0");
-    // // d3.select('circle.points').attr("opacity","1");
-    // if (country) { // user selected somting
-      // // svg.selectAll('circle.points').attr("opacity","0");
-      // if(scatclicked == 1) {
-      //   function(d) {
-      //     if(d['country'] == country) {
-      //       svg.select(this).attr("opacity", "1");
-      //     }
-      //   }
-      //   // svg.selectAll('circle.points').attr("opacity", function(d) {
-      //   //   if (d['country'] == country) return 0.7
-      //   // });
-      //   scatclicked = 2;
-      // }
-
-      // svg.select(this).attr("opacity", "1");
-    //   svg.selectAll('circle.points').attr("opacity", function(d) {
-    //     if (d['country'] == country) return 0.7
-    //     else return 0;
-    //   });
-    // } else {
-    //   svg.selectAll('circle.points').attr("opacity", 0.7);
-    // }
-  // }
-  if (country) { // user selected somting
-    svg.selectAll('circle.points').attr("opacity", function(d) {
-      if (d['country'] == country) return 0.7
-      else return 0;
-    });
-  } else {
-    svg.selectAll('circle.points').attr("opacity", 0.7);
+    if (country) { // user selected somting
+      svg.selectAll('circle.points').attr("opacity", function(d) {
+        if (d['country'] == country) return 0.7
+        else return 0;
+      });
+    } else {
+      svg.selectAll('circle.points').attr("opacity", 0.7);
+    }
   }
-}
-
-//
-// function update2(country) {
-// console.log("mr.depress");
-// //    d3.selectAll("rect.bar").attr("fill", "teal");
-// //   selected= 2;
-// // d3.select(this)
-// //   .attr("fill", "orange");
-//
-// if (country) { // user selected somting
-//   d3.selectAll('circle.points').attr("opacity", function(d) {
-//     if (d['country'] == country) return 0.7
-//     else return 0;
-//   });
-// } else {
-//   svg.selectAll('circle.points').attr("opacity", 0.7);
-// }
-// }
 
   function brushended() {
     if (!d3.event.selection) {
@@ -265,45 +196,8 @@ var scatterChart = function(options) {
   }
 
   chart.highlightcountry = function(country) {
-    // // console.log(scatclicked);
-    // // if(scatclicked == 1) {
-    // //   scatclicked = 2;
-    // //   update(country);
-    // // } else if (scatclicked == 2) {
-    // //     update(country);
-    // //     scatclicked = 1;
-    // // }
-    //   console.log(scatclicked);
-    // if(scatclicked == 1) {
-    //   update(country);
-    //   scatclicked = 2;
-    // } else if (scatclicked == 2) {
-    //   update2(country);
-    //   scatclicked = 1;
-    // }
     update(country);
   }
-
-  // chart.highlightcountry2 = function(country) {
-  //   // // console.log(scatclicked);
-  //   // // if(scatclicked == 1) {
-  //   // //   scatclicked = 2;
-  //   // //   update(country);
-  //   // // } else if (scatclicked == 2) {
-  //   // //     update(country);
-  //   // //     scatclicked = 1;
-  //   // // }
-  //   //   console.log(scatclicked);
-  //   // if(scatclicked == 1) {
-  //   //   update(country);
-  //   //   scatclicked = 2;
-  //   // } else if (scatclicked == 2) {
-  //   //   update2(country);
-  //   //   scatclicked = 1;
-  //   // }
-  //   console.log("mr.unhappy");
-  //   update2(country);
-  // }
 
   chart.width = function(value) {
     if (!arguments.length) {
@@ -335,7 +229,7 @@ var scatterChart = function(options) {
   };
 
   chart.onBrushData = function(data) {
-  //  console.log(" the default handler of on brush data length of brushed data " + data.length);
+    console.log(" the default handler of on brush data length of brushed data " + data.length);
   };
 
   return chart;

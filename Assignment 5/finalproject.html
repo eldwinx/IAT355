@@ -419,10 +419,16 @@
 <script src="scatterplot.js"></script>
 <script src="scatterplot2.js"></script>
 <script src="scatterplot3.js"></script>
+<script src="scatterplot4.js"></script>
+<script src="scatterplot5.js"></script>
+<script src="scatterplot6.js"></script>
 <script src="barchart.js"></script>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 
 <script>
+
+  var clicked = false;
+  var scatclick = 1;
   // use local file
   var url = "http://www.sfu.ca/~wadel/iat355/EDEmployment.csv";
 
@@ -430,13 +436,25 @@
     .width(426)
     .height(230);
 
+    var scatterchart4 = scatterChart4()
+      .width(426)
+      .height(230);
+
   var scatterchart2 = scatterChart2()
     .width(426)
     .height(230);
 
+    var scatterchart5 = scatterChart5()
+      .width(426)
+      .height(230);
+
   var scatterchart3 = scatterChart3()
     .width(426)
     .height(230);
+
+    var scatterchart6 = scatterChart6()
+      .width(426)
+      .height(230);
   var parseTime = d3.timeParse("%Y");
   var bargraph = new barChart().width(650).height(350);
 
@@ -464,11 +482,39 @@
       bargraph(d3.select("#barchart"), dataset);
 
       bargraph.onClick = function(selection) {
-        scatterchart.highlightcountry(selection);
-        scatterchart2.highlightcountry(selection);
-        scatterchart3.highlightcountry(selection);
+        console.log(scatclick);
+        if (scatclick == 1) {
+          scatterchart.highlightcountry(selection);
+          scatterchart4.highlightcountry();
+          scatterchart2.highlightcountry(selection);
+          scatterchart5.highlightcountry();
+          scatterchart3.highlightcountry(selection);
+          scatterchart6.highlightcountry();
+          updatePie(selection);
+          updatePie2();
+          scatclick = 2;
+        } else if (scatclick == 2){
+          scatterchart4.highlightcountry(selection);
+          scatterchart5.highlightcountry(selection);
+          scatterchart6.highlightcountry(selection);
+          updatePie2(selection);
+          scatclick = 1;
+        }
+
+        // if (scatclick == 1) {
+        //   scatterchart2.highlightcountry(selection);
+        //   scatterchart5.highlightcountry();
+        //   // scatclick = 2;
+        // } else if (scatclick == 2){
+        //   scatterchart5.highlightcountry(selection);
+        //   // scatclick = 1;
+        // }
+        // scatterchart4.highlightcountry(selection);
+        // scatterchart.highlightcountry(selection);
+        // scatterchart2.highlightcountry(selection);
+        // scatterchart3.highlightcountry(selection);
         update(selection);
-        updatePie(selection);
+        // updatePie(selection);
         console.log(selection);
       }
 
@@ -476,8 +522,12 @@
         scatterchart.highlightcountry();
         scatterchart2.highlightcountry();
         scatterchart3.highlightcountry();
+        scatterchart4.highlightcountry();
+        scatterchart5.highlightcountry();
+        scatterchart6.highlightcountry();
         updateAll();
         updatePieAll();
+        updatePieAll2();
       }
 
       $("#sortButton").click(function(evt) {
@@ -491,14 +541,32 @@
         bargraph.updateChart(data);
       }
 
+      scatterchart4(d3.select("#chart"), dataset);
+
+      scatterchart4.onBrushData = function(data) {
+        bargraph.updateChart(data);
+      }
+
       scatterchart2(d3.select("#chart2"), dataset);
 
       scatterchart2.onBrushData = function(data) {
         bargraph.updateChart(data);
       }
 
+      scatterchart5(d3.select("#chart2"), dataset);
+
+      scatterchart5.onBrushData = function(data) {
+        bargraph.updateChart(data);
+      }
+
       scatterchart3(d3.select("#chart3"), dataset);
+
       scatterchart3.onBrushData = function(data) {
+        bargraph.updateChart(data);
+      }
+
+      scatterchart6(d3.select("#chart3"), dataset);
+      scatterchart6.onBrushData = function(data) {
         bargraph.updateChart(data);
       }
     });
@@ -525,13 +593,19 @@
     selectValue = d3.select('select').property('value')
     update(selectValue);
     updatePie(selectValue);
+    updatePie2(selectValue);
     scatterchart.highlightcountry(selectValue);
     scatterchart2.highlightcountry(selectValue);
     scatterchart3.highlightcountry(selectValue);
+    scatterchart4.highlightcountry(selectValue);
+    scatterchart5.highlightcountry(selectValue);
+    scatterchart6.highlightcountry(selectValue);
     if (selectValue == "ALL") {
       scatterchart.highlightcountry();
       scatterchart2.highlightcountry();
       scatterchart3.highlightcountry();
+      updatePieAll();
+      updatePieAll2();
     }
 
   };
@@ -763,7 +837,6 @@
       return y2(d.KORavg);
     });
 
-
   svg.append("defs")
     .append("clipPath")
     .attr("id", "clip")
@@ -938,6 +1011,7 @@
 
   function updateAll() {
     console.log("hi");
+    clicked = false;
     svg.selectAll(".areaKOR").style("opacity", 1);
     svg.selectAll(".areaUSA").style("opacity", 1);
     svg.selectAll(".areaNZL").style("opacity", 1);
@@ -958,158 +1032,181 @@
   }
 
   function update(selectValue) {
+    if (!clicked) {
+      clicked = true;
+      svg.selectAll(".areaUSA").style("opacity", 0);
+      svg.selectAll(".areaNZL").style("opacity", 0);
+      svg.selectAll(".areaCAN").style("opacity", 0);
+      svg.selectAll(".areaFRA").style("opacity", 0);
+      svg.selectAll(".areaEU").style("opacity", 0);
+      svg.selectAll(".areaJPN").style("opacity", 0);
+      svg.selectAll(".areaRUS").style("opacity", 0);
+      svg.selectAll(".areaKOR").style("opacity", 0);
+
+      svg.selectAll(".areaUSA2").style("opacity", 0);
+      svg.selectAll(".areaNZL2").style("opacity", 0);
+      svg.selectAll(".areaCAN2").style("opacity", 0);
+      svg.selectAll(".areaFRA2").style("opacity", 0);
+      svg.selectAll(".areaEU2").style("opacity", 0);
+      svg.selectAll(".areaJPN2").style("opacity", 0);
+      svg.selectAll(".areaRUS2").style("opacity", 0);
+      svg.selectAll(".areaKOR2").style("opacity", 0);
+    }
+     else if (clicked) {
+      clicked = false;
+    }
     if (selectValue == "USA") { // user selected somting
       console.log("hi");
       svg.selectAll(".areaUSA").style("opacity", 1);
-      svg.selectAll(".areaNZL").style("opacity", 0);
-      svg.selectAll(".areaCAN").style("opacity", 0);
-      svg.selectAll(".areaFRA").style("opacity", 0);
-      svg.selectAll(".areaEU").style("opacity", 0);
-      svg.selectAll(".areaJPN").style("opacity", 0);
-      svg.selectAll(".areaRUS").style("opacity", 0);
-      svg.selectAll(".areaKOR").style("opacity", 0);
+      // svg.selectAll(".areaNZL").style("opacity", 0);
+      // svg.selectAll(".areaCAN").style("opacity", 0);
+      // svg.selectAll(".areaFRA").style("opacity", 0);
+      // svg.selectAll(".areaEU").style("opacity", 0);
+      // svg.selectAll(".areaJPN").style("opacity", 0);
+      // svg.selectAll(".areaRUS").style("opacity", 0);
+      // svg.selectAll(".areaKOR").style("opacity", 0);
 
       svg.selectAll(".areaUSA2").style("opacity", 1);
-      svg.selectAll(".areaNZL2").style("opacity", 0);
-      svg.selectAll(".areaCAN2").style("opacity", 0);
-      svg.selectAll(".areaFRA2").style("opacity", 0);
-      svg.selectAll(".areaEU2").style("opacity", 0);
-      svg.selectAll(".areaJPN2").style("opacity", 0);
-      svg.selectAll(".areaRUS2").style("opacity", 0);
-      svg.selectAll(".areaKOR2").style("opacity", 0);
+      // svg.selectAll(".areaNZL2").style("opacity", 0);
+      // svg.selectAll(".areaCAN2").style("opacity", 0);
+      // svg.selectAll(".areaFRA2").style("opacity", 0);
+      // svg.selectAll(".areaEU2").style("opacity", 0);
+      // svg.selectAll(".areaJPN2").style("opacity", 0);
+      // svg.selectAll(".areaRUS2").style("opacity", 0);
+      // svg.selectAll(".areaKOR2").style("opacity", 0);
     } else if (selectValue == "NZL") { // user selected somting
       console.log("hi");
       svg.selectAll(".areaNZL").style("opacity", 1);
-      svg.selectAll(".areaUSA").style("opacity", 0);
-      svg.selectAll(".areaCAN").style("opacity", 0);
-      svg.selectAll(".areaFRA").style("opacity", 0);
-      svg.selectAll(".areaEU").style("opacity", 0);
-      svg.selectAll(".areaJPN").style("opacity", 0);
-      svg.selectAll(".areaRUS").style("opacity", 0);
-      svg.selectAll(".areaKOR").style("opacity", 0);
+      // svg.selectAll(".areaUSA").style("opacity", 0);
+      // svg.selectAll(".areaCAN").style("opacity", 0);
+      // svg.selectAll(".areaFRA").style("opacity", 0);
+      // svg.selectAll(".areaEU").style("opacity", 0);
+      // svg.selectAll(".areaJPN").style("opacity", 0);
+      // svg.selectAll(".areaRUS").style("opacity", 0);
+      // svg.selectAll(".areaKOR").style("opacity", 0);
 
       svg.selectAll(".areaNZL2").style("opacity", 1);
-      svg.selectAll(".areaUSA2").style("opacity", 0);
-      svg.selectAll(".areaCAN2").style("opacity", 0);
-      svg.selectAll(".areaFRA2").style("opacity", 0);
-      svg.selectAll(".areaEU2").style("opacity", 0);
-      svg.selectAll(".areaJPN2").style("opacity", 0);
-      svg.selectAll(".areaRUS2").style("opacity", 0);
-      svg.selectAll(".areaKOR2").style("opacity", 0);
+      // svg.selectAll(".areaUSA2").style("opacity", 0);
+      // svg.selectAll(".areaCAN2").style("opacity", 0);
+      // svg.selectAll(".areaFRA2").style("opacity", 0);
+      // svg.selectAll(".areaEU2").style("opacity", 0);
+      // svg.selectAll(".areaJPN2").style("opacity", 0);
+      // svg.selectAll(".areaRUS2").style("opacity", 0);
+      // svg.selectAll(".areaKOR2").style("opacity", 0);
     } else if (selectValue == "CAN") { // user selected somting
       console.log("hi");
       svg.selectAll(".areaCAN").style("opacity", 1);
-      svg.selectAll(".areaUSA").style("opacity", 0);
-      svg.selectAll(".areaNZL").style("opacity", 0);
-      svg.selectAll(".areaFRA").style("opacity", 0);
-      svg.selectAll(".areaEU").style("opacity", 0);
-      svg.selectAll(".areaJPN").style("opacity", 0);
-      svg.selectAll(".areaRUS").style("opacity", 0);
-      svg.selectAll(".areaKOR").style("opacity", 0);
+      // svg.selectAll(".areaUSA").style("opacity", 0);
+      // svg.selectAll(".areaNZL").style("opacity", 0);
+      // svg.selectAll(".areaFRA").style("opacity", 0);
+      // svg.selectAll(".areaEU").style("opacity", 0);
+      // svg.selectAll(".areaJPN").style("opacity", 0);
+      // svg.selectAll(".areaRUS").style("opacity", 0);
+      // svg.selectAll(".areaKOR").style("opacity", 0);
 
       svg.selectAll(".areaCAN2").style("opacity", 1);
-      svg.selectAll(".areaUSA2").style("opacity", 0);
-      svg.selectAll(".areaNZL2").style("opacity", 0);
-      svg.selectAll(".areaFRA2").style("opacity", 0);
-      svg.selectAll(".areaEU2").style("opacity", 0);
-      svg.selectAll(".areaJPN2").style("opacity", 0);
-      svg.selectAll(".areaRUS2").style("opacity", 0);
-      svg.selectAll(".areaKOR2").style("opacity", 0);
+      // svg.selectAll(".areaUSA2").style("opacity", 0);
+      // svg.selectAll(".areaNZL2").style("opacity", 0);
+      // svg.selectAll(".areaFRA2").style("opacity", 0);
+      // svg.selectAll(".areaEU2").style("opacity", 0);
+      // svg.selectAll(".areaJPN2").style("opacity", 0);
+      // svg.selectAll(".areaRUS2").style("opacity", 0);
+      // svg.selectAll(".areaKOR2").style("opacity", 0);
     } else if (selectValue == "FRA") { // user selected somting
       console.log("hi");
       svg.selectAll(".areaFRA").style("opacity", 1);
-      svg.selectAll(".areaUSA").style("opacity", 0);
-      svg.selectAll(".areaNZL").style("opacity", 0);
-      svg.selectAll(".areaCAN").style("opacity", 0);
-      svg.selectAll(".areaEU").style("opacity", 0);
-      svg.selectAll(".areaJPN").style("opacity", 0);
-      svg.selectAll(".areaRUS").style("opacity", 0);
-      svg.selectAll(".areaKOR").style("opacity", 0);
+      // svg.selectAll(".areaUSA").style("opacity", 0);
+      // svg.selectAll(".areaNZL").style("opacity", 0);
+      // svg.selectAll(".areaCAN").style("opacity", 0);
+      // svg.selectAll(".areaEU").style("opacity", 0);
+      // svg.selectAll(".areaJPN").style("opacity", 0);
+      // svg.selectAll(".areaRUS").style("opacity", 0);
+      // svg.selectAll(".areaKOR").style("opacity", 0);
 
       svg.selectAll(".areaFRA2").style("opacity", 1);
-      svg.selectAll(".areaUSA2").style("opacity", 0);
-      svg.selectAll(".areaNZL2").style("opacity", 0);
-      svg.selectAll(".areaCAN2").style("opacity", 0);
-      svg.selectAll(".areaEU2").style("opacity", 0);
-      svg.selectAll(".areaJPN2").style("opacity", 0);
-      svg.selectAll(".areaRUS2").style("opacity", 0);
-      svg.selectAll(".areaKOR2").style("opacity", 0);
+      // svg.selectAll(".areaUSA2").style("opacity", 0);
+      // svg.selectAll(".areaNZL2").style("opacity", 0);
+      // svg.selectAll(".areaCAN2").style("opacity", 0);
+      // svg.selectAll(".areaEU2").style("opacity", 0);
+      // svg.selectAll(".areaJPN2").style("opacity", 0);
+      // svg.selectAll(".areaRUS2").style("opacity", 0);
+      // svg.selectAll(".areaKOR2").style("opacity", 0);
     } else if (selectValue == "EU") { // user selected somting
       console.log("hi");
       svg.selectAll(".areaEU").style("opacity", 1);
-      svg.selectAll(".areaUSA").style("opacity", 0);
-      svg.selectAll(".areaNZL").style("opacity", 0);
-      svg.selectAll(".areaCAN").style("opacity", 0);
-      svg.selectAll(".areaFRA").style("opacity", 0);
-      svg.selectAll(".areaJPN").style("opacity", 0);
-      svg.selectAll(".areaRUS").style("opacity", 0);
-      svg.selectAll(".areaKOR").style("opacity", 0);
+      // svg.selectAll(".areaUSA").style("opacity", 0);
+      // svg.selectAll(".areaNZL").style("opacity", 0);
+      // svg.selectAll(".areaCAN").style("opacity", 0);
+      // svg.selectAll(".areaFRA").style("opacity", 0);
+      // svg.selectAll(".areaJPN").style("opacity", 0);
+      // svg.selectAll(".areaRUS").style("opacity", 0);
+      // svg.selectAll(".areaKOR").style("opacity", 0);
 
       svg.selectAll(".areaEU2").style("opacity", 1);
-      svg.selectAll(".areaUSA2").style("opacity", 0);
-      svg.selectAll(".areaNZL2").style("opacity", 0);
-      svg.selectAll(".areaCAN2").style("opacity", 0);
-      svg.selectAll(".areaFRA2").style("opacity", 0);
-      svg.selectAll(".areaJPN2").style("opacity", 0);
-      svg.selectAll(".areaRUS2").style("opacity", 0);
-      svg.selectAll(".areaKOR2").style("opacity", 0);
+        // svg.selectAll(".areaUSA2").style("opacity", 0);
+        // svg.selectAll(".areaNZL2").style("opacity", 0);
+        // svg.selectAll(".areaCAN2").style("opacity", 0);
+        // svg.selectAll(".areaFRA2").style("opacity", 0);
+        // svg.selectAll(".areaJPN2").style("opacity", 0);
+        // svg.selectAll(".areaRUS2").style("opacity", 0);
+        // svg.selectAll(".areaKOR2").style("opacity", 0);
     } else if (selectValue == "JPN") { // user selected somting
       console.log("hi");
       svg.selectAll(".areaJPN").style("opacity", 1);
-      svg.selectAll(".areaUSA").style("opacity", 0);
-      svg.selectAll(".areaNZL").style("opacity", 0);
-      svg.selectAll(".areaCAN").style("opacity", 0);
-      svg.selectAll(".areaFRA").style("opacity", 0);
-      svg.selectAll(".areaEU").style("opacity", 0);
-      svg.selectAll(".areaRUS").style("opacity", 0);
-      svg.selectAll(".areaKOR").style("opacity", 0);
+      // svg.selectAll(".areaUSA").style("opacity", 0);
+      // svg.selectAll(".areaNZL").style("opacity", 0);
+      // svg.selectAll(".areaCAN").style("opacity", 0);
+      // svg.selectAll(".areaFRA").style("opacity", 0);
+      // svg.selectAll(".areaEU").style("opacity", 0);
+      // svg.selectAll(".areaRUS").style("opacity", 0);
+      // svg.selectAll(".areaKOR").style("opacity", 0);
 
       svg.selectAll(".areaJPN2").style("opacity", 1);
-      svg.selectAll(".areaUSA2").style("opacity", 0);
-      svg.selectAll(".areaNZL2").style("opacity", 0);
-      svg.selectAll(".areaCAN2").style("opacity", 0);
-      svg.selectAll(".areaFRA2").style("opacity", 0);
-      svg.selectAll(".areaEU2").style("opacity", 0);
-      svg.selectAll(".areaRUS2").style("opacity", 0);
-      svg.selectAll(".areaKOR2").style("opacity", 0);
+      // svg.selectAll(".areaUSA2").style("opacity", 0);
+      // svg.selectAll(".areaNZL2").style("opacity", 0);
+      // svg.selectAll(".areaCAN2").style("opacity", 0);
+      // svg.selectAll(".areaFRA2").style("opacity", 0);
+      // svg.selectAll(".areaEU2").style("opacity", 0);
+      // svg.selectAll(".areaRUS2").style("opacity", 0);
+      // svg.selectAll(".areaKOR2").style("opacity", 0);
     } else if (selectValue == "RUS") { // user selected somting
       console.log("hi");
       svg.selectAll(".areaRUS").style("opacity", 1);
-      svg.selectAll(".areaUSA").style("opacity", 0);
-      svg.selectAll(".areaNZL").style("opacity", 0);
-      svg.selectAll(".areaCAN").style("opacity", 0);
-      svg.selectAll(".areaFRA").style("opacity", 0);
-      svg.selectAll(".areaEU").style("opacity", 0);
-      svg.selectAll(".areaJPN").style("opacity", 0);
-      svg.selectAll(".areaKOR").style("opacity", 0);
+      // svg.selectAll(".areaUSA").style("opacity", 0);
+      // svg.selectAll(".areaNZL").style("opacity", 0);
+      // svg.selectAll(".areaCAN").style("opacity", 0);
+      // svg.selectAll(".areaFRA").style("opacity", 0);
+      // svg.selectAll(".areaEU").style("opacity", 0);
+      // svg.selectAll(".areaJPN").style("opacity", 0);
+      // svg.selectAll(".areaKOR").style("opacity", 0);
 
       svg.selectAll(".areaRUS2").style("opacity", 1);
-      svg.selectAll(".areaUSA2").style("opacity", 0);
-      svg.selectAll(".areaNZL2").style("opacity", 0);
-      svg.selectAll(".areaCAN2").style("opacity", 0);
-      svg.selectAll(".areaFRA2").style("opacity", 0);
-      svg.selectAll(".areaEU2").style("opacity", 0);
-      svg.selectAll(".areaJPN2").style("opacity", 0);
-      svg.selectAll(".areaKOR2").style("opacity", 0);
+      // svg.selectAll(".areaUSA2").style("opacity", 0);
+      // svg.selectAll(".areaNZL2").style("opacity", 0);
+      // svg.selectAll(".areaCAN2").style("opacity", 0);
+      // svg.selectAll(".areaFRA2").style("opacity", 0);
+      // svg.selectAll(".areaEU2").style("opacity", 0);
+      // svg.selectAll(".areaJPN2").style("opacity", 0);
+      // svg.selectAll(".areaKOR2").style("opacity", 0);
     } else if (selectValue == "KOR") { // user selected somting
       console.log("hi");
       svg.selectAll(".areaKOR").style("opacity", 1);
-      svg.selectAll(".areaUSA").style("opacity", 0);
-      svg.selectAll(".areaNZL").style("opacity", 0);
-      svg.selectAll(".areaCAN").style("opacity", 0);
-      svg.selectAll(".areaFRA").style("opacity", 0);
-      svg.selectAll(".areaEU").style("opacity", 0);
-      svg.selectAll(".areaRUS").style("opacity", 0);
-      svg.selectAll(".areaJPN").style("opacity", 0);
+      // svg.selectAll(".areaUSA").style("opacity", 0);
+      // svg.selectAll(".areaNZL").style("opacity", 0);
+      // svg.selectAll(".areaCAN").style("opacity", 0);
+      // svg.selectAll(".areaFRA").style("opacity", 0);
+      // svg.selectAll(".areaEU").style("opacity", 0);
+      // svg.selectAll(".areaRUS").style("opacity", 0);
+      // svg.selectAll(".areaJPN").style("opacity", 0);
 
       svg.selectAll(".areaKOR2").style("opacity", 1);
-      svg.selectAll(".areaUSA2").style("opacity", 0);
-      svg.selectAll(".areaNZL2").style("opacity", 0);
-      svg.selectAll(".areaCAN2").style("opacity", 0);
-      svg.selectAll(".areaFRA2").style("opacity", 0);
-      svg.selectAll(".areaEU2").style("opacity", 0);
-      svg.selectAll(".areaRUS2").style("opacity", 0);
-      svg.selectAll(".areaJPN2").style("opacity", 0);
+      // svg.selectAll(".areaUSA2").style("opacity", 0);
+      // svg.selectAll(".areaNZL2").style("opacity", 0);
+      // svg.selectAll(".areaCAN2").style("opacity", 0);
+      // svg.selectAll(".areaFRA2").style("opacity", 0);
+      // svg.selectAll(".areaEU2").style("opacity", 0);
+      // svg.selectAll(".areaRUS2").style("opacity", 0);
+      // svg.selectAll(".areaJPN2").style("opacity", 0);
     } else if (selectValue == "ALL") { // user selected somting
       console.log("hi");
       svg.selectAll(".areaKOR").style("opacity", 1);
@@ -1226,6 +1323,363 @@
 
 
   function updatePie(selectValue) {
+    console.log(data);
+    // if(scatclick == 1) {
+    if (selectValue == "USA") {
+      data = [{
+          "label": "Post-Secondary",
+          "value": 38.897
+        },
+        {
+          "label": "Secondary",
+          "value": 48.898
+        },
+        {
+          "label": "Below Secondary",
+          "value": 12.205
+        }
+      ];
+    }
+
+    if (selectValue == "NZL") {
+      data = [{
+          "label": "Post-Secondary",
+          "value": 31.8718
+        },
+        {
+          "label": "Secondary",
+          "value": 36.4035
+        },
+        {
+          "label": "Below Secondary",
+          "value": 31.7247
+        }
+      ];
+    }
+
+    if (selectValue == "CAN") {
+      data = [{
+          "label": "Post-Secondary",
+          "value": 44.9014
+        },
+        {
+          "label": "Secondary",
+          "value": 39
+        },
+        {
+          "label": "Below Secondary",
+          "value": 16.0986
+        }
+      ];
+    }
+
+    if (selectValue == "FRA") {
+      data = [{
+          "label": "Post-Secondary",
+          "value": 25.2363
+        },
+        {
+          "label": "Secondary",
+          "value": 41.2868
+        },
+        {
+          "label": "Below Secondary",
+          "value": 33.4769
+        }
+      ];
+    }
+
+    if (selectValue == "EU") {
+      data = [{
+          "label": "Post-Secondary",
+          "value": 36.1652
+        },
+        {
+          "label": "Secondary",
+          "value": 36.5693
+        },
+        {
+          "label": "Below Secondary",
+          "value": 27.2655
+        }
+      ];
+    }
+
+    if (selectValue == "JPN") {
+      data = [{
+          "label": "Post-Secondary",
+          "value": 40.7046
+        },
+        {
+          "label": "Secondary",
+          "value": 42.6088
+        },
+        {
+          "label": "Below Secondary",
+          "value": 16.6866
+        }
+      ];
+    }
+
+    if (selectValue == "KOR") {
+      data = [{
+          "label": "Post-Secondary",
+          "value": 32.3865
+        },
+        {
+          "label": "Secondary",
+          "value": 41.6102
+        },
+        {
+          "label": "Below Secondary",
+          "value": 26.0033
+        }
+      ];
+    }
+
+    if (selectValue == "RUS") {
+      data = [{
+          "label": "Post-Secondary",
+          "value": 52.3456
+        },
+        {
+          "label": "Secondary",
+          "value": 39.4119
+        },
+        {
+          "label": "Below Secondary",
+          "value": 8.2425
+        }
+      ];
+    }
+
+    if (selectValue == "ALL") {
+      data = [{
+          "label": "Post-Secondary",
+          "value": 37.81355
+        },
+        {
+          "label": "Secondary",
+          "value": 40.72356
+        },
+        {
+          "label": "Below Secondary",
+          "value": 21.46289
+        }
+      ];
+    }
+
+  //
+
+
+
+    var vis = d3.select("#chart5").select("svg")
+      .remove();
+
+    var vis = d3.select("#chart5").select("p")
+      .remove();
+
+    var vis = d3.select("#chart5")
+      .append("svg:svg")
+      .data([data])
+      .attr("width", w)
+      .attr("height", h)
+      .append("svg:g")
+      .attr("transform", "translate(" + w / 2 + "," + 250 + ")")
+
+
+    var arc = d3.svg.arc()
+      .outerRadius(r);
+
+    var pie = d3.layout.pie()
+      .value(function(d) {
+        return d.value;
+      });
+
+    var arcs = vis.selectAll("g.slice")
+      .data(pie)
+      .enter()
+      .append("svg:g")
+      .attr("class", "slice");
+
+    arcs.append("svg:path")
+      .attr("fill", function(d, i) {
+        return color(i);
+      })
+      .attr("d", arc);
+
+    arcs.append("text")
+      .attr("x", 0)
+      .attr("y", -220)
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .style("font-size", "18px")
+      .text("Average Education Level");
+
+    arcs.append("svg:text")
+      .attr("transform", function(d) {
+
+        d.innerRadius = 0;
+        d.outerRadius = r;
+        return "translate(" + arc.centroid(d) + ")";
+      })
+      .attr("text-anchor", "middle")
+      .text(function(d, i) {
+        return data[i].label + ": " + data[i].value;
+      });
+
+
+
+  }
+
+
+  function updatePieAll() {
+    data = [{
+        "label": "Post-Secondary",
+        "value": 37.81355
+      },
+      {
+        "label": "Secondary",
+        "value": 40.72356
+      },
+      {
+        "label": "Below Secondary",
+        "value": 21.46289
+      }
+    ];
+
+    var vis = d3.select("#chart5").select("svg")
+      .remove();
+
+    var vis = d3.select("#chart5").select("p")
+      .remove();
+
+    var vis = d3.select("#chart5")
+      .append("svg:svg")
+      .data([data])
+      .attr("width", w)
+      .attr("height", h)
+      .append("svg:g")
+      .attr("transform", "translate(" + w / 2 + "," + 250 + ")")
+
+
+    var arc = d3.svg.arc()
+      .outerRadius(r);
+
+    var pie = d3.layout.pie()
+      .value(function(d) {
+        return d.value;
+      });
+
+    var arcs = vis.selectAll("g.slice")
+      .data(pie)
+      .enter()
+      .append("svg:g")
+      .attr("class", "slice");
+
+    arcs.append("text")
+      .attr("x", 0)
+      .attr("y", -220)
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .style("font-size", "18px")
+      .text("Average Education Level");
+
+    arcs.append("svg:path")
+      .attr("fill", function(d, i) {
+        return color(i);
+      })
+      .attr("d", arc);
+
+    arcs.append("svg:text")
+      .attr("transform", function(d) {
+
+        d.innerRadius = 0;
+        d.outerRadius = r;
+        return "translate(" + arc.centroid(d) + ")";
+      })
+      .attr("text-anchor", "middle")
+      .text(function(d, i) {
+        return data[i].label + ": " + data[i].value;
+      });
+  }
+
+
+  /*pie diagram*/
+  var w = 426, //width
+    h = 450, //height
+    r = 190, //radius
+    color = d3.scale.category20c(); //builtin range of colors
+
+
+
+
+  data = [{
+      "label": "Post-Secondary",
+      "value": 37.81355
+    },
+    {
+      "label": "Secondary",
+      "value": 40.72356
+    },
+    {
+      "label": "Below Secondary",
+      "value": 21.46289
+    }
+  ];
+
+  var vis = d3.select("#chart5")
+    .append("svg:svg")
+    .data([data])
+    .attr("width", w)
+    .attr("height", h)
+    .append("svg:g")
+    .attr("transform", "translate(" + w / 2 + "," + 250 + ")")
+
+
+  var arc = d3.svg.arc()
+    .outerRadius(r);
+
+  var pie = d3.layout.pie()
+    .value(function(d) {
+      return d.value;
+    });
+
+  var arcs = vis.selectAll("g.slice")
+    .data(pie)
+    .enter()
+    .append("svg:g")
+    .attr("class", "slice");
+
+  arcs.append("text")
+    .attr("x", 0)
+    .attr("y", -220)
+    .attr("dy", "1em")
+    .style("text-anchor", "middle")
+    .style("font-size", "18px")
+    .text("Average Education Level");
+
+  arcs.append("svg:path")
+    .attr("fill", function(d, i) {
+      return color(i);
+    })
+    .attr("d", arc);
+
+  arcs.append("svg:text")
+    .attr("transform", function(d) {
+
+      d.innerRadius = 0;
+      d.outerRadius = r;
+      return "translate(" + arc.centroid(d) + ")";
+    })
+    .attr("text-anchor", "middle")
+    .text(function(d, i) {
+      return data[i].label + ": " + data[i].value;
+    });
+  // .text(function(d, i) { return data[i].value; });
+
+
+  function updatePie2(selectValue) {
     console.log(data);
     if (selectValue == "USA") {
       data = [{
@@ -1373,6 +1827,7 @@
 
 
 
+
     var vis = d3.select("#chart5").select("svg")
       .remove();
 
@@ -1414,7 +1869,7 @@
       .attr("dy", "1em")
       .style("text-anchor", "middle")
       .style("font-size", "18px")
-      .text("Average Education Level For: " + selectValue);
+      .text("Average Education Level");
 
     arcs.append("svg:text")
       .attr("transform", function(d) {
@@ -1433,7 +1888,7 @@
   }
 
 
-  function updatePieAll() {
+  function updatePieAll2() {
     data = [{
         "label": "Post-Secondary",
         "value": 37.81355
