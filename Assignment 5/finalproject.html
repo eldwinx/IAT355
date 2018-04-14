@@ -196,11 +196,6 @@
       clip-path: url(#clip);
     }
 
-    /* .empty {
-      fill:none;
-      clip-path: url(#clip);
-    } */
-
     .zoom {
       cursor: move;
       fill: none;
@@ -508,20 +503,8 @@
           scatclick = 1;
         }
 
-        // if (scatclick == 1) {
-        //   scatterchart2.highlightcountry(selection);
-        //   scatterchart5.highlightcountry();
-        //   // scatclick = 2;
-        // } else if (scatclick == 2){
-        //   scatterchart5.highlightcountry(selection);
-        //   // scatclick = 1;
-        // }
-        // scatterchart4.highlightcountry(selection);
-        // scatterchart.highlightcountry(selection);
-        // scatterchart2.highlightcountry(selection);
-        // scatterchart3.highlightcountry(selection);
+
         update(selection);
-        // updatePie(selection);
         console.log(selection);
       }
 
@@ -1064,155 +1047,43 @@
     if (selectValue == "USA") { // user selected somting
       console.log("hi");
       svg.selectAll(".areaUSA").style("opacity", 1);
-      // svg.selectAll(".areaNZL").style("opacity", 0);
-      // svg.selectAll(".areaCAN").style("opacity", 0);
-      // svg.selectAll(".areaFRA").style("opacity", 0);
-      // svg.selectAll(".areaEU").style("opacity", 0);
-      // svg.selectAll(".areaJPN").style("opacity", 0);
-      // svg.selectAll(".areaRUS").style("opacity", 0);
-      // svg.selectAll(".areaKOR").style("opacity", 0);
-
       svg.selectAll(".areaUSA2").style("opacity", 1);
-      // svg.selectAll(".areaNZL2").style("opacity", 0);
-      // svg.selectAll(".areaCAN2").style("opacity", 0);
-      // svg.selectAll(".areaFRA2").style("opacity", 0);
-      // svg.selectAll(".areaEU2").style("opacity", 0);
-      // svg.selectAll(".areaJPN2").style("opacity", 0);
-      // svg.selectAll(".areaRUS2").style("opacity", 0);
-      // svg.selectAll(".areaKOR2").style("opacity", 0);
+
     } else if (selectValue == "NZL") { // user selected somting
       console.log("hi");
       svg.selectAll(".areaNZL").style("opacity", 1);
-      // svg.selectAll(".areaUSA").style("opacity", 0);
-      // svg.selectAll(".areaCAN").style("opacity", 0);
-      // svg.selectAll(".areaFRA").style("opacity", 0);
-      // svg.selectAll(".areaEU").style("opacity", 0);
-      // svg.selectAll(".areaJPN").style("opacity", 0);
-      // svg.selectAll(".areaRUS").style("opacity", 0);
-      // svg.selectAll(".areaKOR").style("opacity", 0);
-
       svg.selectAll(".areaNZL2").style("opacity", 1);
-      // svg.selectAll(".areaUSA2").style("opacity", 0);
-      // svg.selectAll(".areaCAN2").style("opacity", 0);
-      // svg.selectAll(".areaFRA2").style("opacity", 0);
-      // svg.selectAll(".areaEU2").style("opacity", 0);
-      // svg.selectAll(".areaJPN2").style("opacity", 0);
-      // svg.selectAll(".areaRUS2").style("opacity", 0);
-      // svg.selectAll(".areaKOR2").style("opacity", 0);
+
     } else if (selectValue == "CAN") { // user selected somting
       console.log("hi");
       svg.selectAll(".areaCAN").style("opacity", 1);
-      // svg.selectAll(".areaUSA").style("opacity", 0);
-      // svg.selectAll(".areaNZL").style("opacity", 0);
-      // svg.selectAll(".areaFRA").style("opacity", 0);
-      // svg.selectAll(".areaEU").style("opacity", 0);
-      // svg.selectAll(".areaJPN").style("opacity", 0);
-      // svg.selectAll(".areaRUS").style("opacity", 0);
-      // svg.selectAll(".areaKOR").style("opacity", 0);
-
       svg.selectAll(".areaCAN2").style("opacity", 1);
-      // svg.selectAll(".areaUSA2").style("opacity", 0);
-      // svg.selectAll(".areaNZL2").style("opacity", 0);
-      // svg.selectAll(".areaFRA2").style("opacity", 0);
-      // svg.selectAll(".areaEU2").style("opacity", 0);
-      // svg.selectAll(".areaJPN2").style("opacity", 0);
-      // svg.selectAll(".areaRUS2").style("opacity", 0);
-      // svg.selectAll(".areaKOR2").style("opacity", 0);
+
     } else if (selectValue == "FRA") { // user selected somting
       console.log("hi");
       svg.selectAll(".areaFRA").style("opacity", 1);
-      // svg.selectAll(".areaUSA").style("opacity", 0);
-      // svg.selectAll(".areaNZL").style("opacity", 0);
-      // svg.selectAll(".areaCAN").style("opacity", 0);
-      // svg.selectAll(".areaEU").style("opacity", 0);
-      // svg.selectAll(".areaJPN").style("opacity", 0);
-      // svg.selectAll(".areaRUS").style("opacity", 0);
-      // svg.selectAll(".areaKOR").style("opacity", 0);
-
       svg.selectAll(".areaFRA2").style("opacity", 1);
-      // svg.selectAll(".areaUSA2").style("opacity", 0);
-      // svg.selectAll(".areaNZL2").style("opacity", 0);
-      // svg.selectAll(".areaCAN2").style("opacity", 0);
-      // svg.selectAll(".areaEU2").style("opacity", 0);
-      // svg.selectAll(".areaJPN2").style("opacity", 0);
-      // svg.selectAll(".areaRUS2").style("opacity", 0);
-      // svg.selectAll(".areaKOR2").style("opacity", 0);
+
     } else if (selectValue == "EU") { // user selected somting
       console.log("hi");
       svg.selectAll(".areaEU").style("opacity", 1);
-      // svg.selectAll(".areaUSA").style("opacity", 0);
-      // svg.selectAll(".areaNZL").style("opacity", 0);
-      // svg.selectAll(".areaCAN").style("opacity", 0);
-      // svg.selectAll(".areaFRA").style("opacity", 0);
-      // svg.selectAll(".areaJPN").style("opacity", 0);
-      // svg.selectAll(".areaRUS").style("opacity", 0);
-      // svg.selectAll(".areaKOR").style("opacity", 0);
-
       svg.selectAll(".areaEU2").style("opacity", 1);
-      // svg.selectAll(".areaUSA2").style("opacity", 0);
-      // svg.selectAll(".areaNZL2").style("opacity", 0);
-      // svg.selectAll(".areaCAN2").style("opacity", 0);
-      // svg.selectAll(".areaFRA2").style("opacity", 0);
-      // svg.selectAll(".areaJPN2").style("opacity", 0);
-      // svg.selectAll(".areaRUS2").style("opacity", 0);
-      // svg.selectAll(".areaKOR2").style("opacity", 0);
+
     } else if (selectValue == "JPN") { // user selected somting
       console.log("hi");
       svg.selectAll(".areaJPN").style("opacity", 1);
-      // svg.selectAll(".areaUSA").style("opacity", 0);
-      // svg.selectAll(".areaNZL").style("opacity", 0);
-      // svg.selectAll(".areaCAN").style("opacity", 0);
-      // svg.selectAll(".areaFRA").style("opacity", 0);
-      // svg.selectAll(".areaEU").style("opacity", 0);
-      // svg.selectAll(".areaRUS").style("opacity", 0);
-      // svg.selectAll(".areaKOR").style("opacity", 0);
-
       svg.selectAll(".areaJPN2").style("opacity", 1);
-      // svg.selectAll(".areaUSA2").style("opacity", 0);
-      // svg.selectAll(".areaNZL2").style("opacity", 0);
-      // svg.selectAll(".areaCAN2").style("opacity", 0);
-      // svg.selectAll(".areaFRA2").style("opacity", 0);
-      // svg.selectAll(".areaEU2").style("opacity", 0);
-      // svg.selectAll(".areaRUS2").style("opacity", 0);
-      // svg.selectAll(".areaKOR2").style("opacity", 0);
+
     } else if (selectValue == "RUS") { // user selected somting
       console.log("hi");
       svg.selectAll(".areaRUS").style("opacity", 1);
-      // svg.selectAll(".areaUSA").style("opacity", 0);
-      // svg.selectAll(".areaNZL").style("opacity", 0);
-      // svg.selectAll(".areaCAN").style("opacity", 0);
-      // svg.selectAll(".areaFRA").style("opacity", 0);
-      // svg.selectAll(".areaEU").style("opacity", 0);
-      // svg.selectAll(".areaJPN").style("opacity", 0);
-      // svg.selectAll(".areaKOR").style("opacity", 0);
-
       svg.selectAll(".areaRUS2").style("opacity", 1);
-      // svg.selectAll(".areaUSA2").style("opacity", 0);
-      // svg.selectAll(".areaNZL2").style("opacity", 0);
-      // svg.selectAll(".areaCAN2").style("opacity", 0);
-      // svg.selectAll(".areaFRA2").style("opacity", 0);
-      // svg.selectAll(".areaEU2").style("opacity", 0);
-      // svg.selectAll(".areaJPN2").style("opacity", 0);
-      // svg.selectAll(".areaKOR2").style("opacity", 0);
+
     } else if (selectValue == "KOR") { // user selected somting
       console.log("hi");
       svg.selectAll(".areaKOR").style("opacity", 1);
-      // svg.selectAll(".areaUSA").style("opacity", 0);
-      // svg.selectAll(".areaNZL").style("opacity", 0);
-      // svg.selectAll(".areaCAN").style("opacity", 0);
-      // svg.selectAll(".areaFRA").style("opacity", 0);
-      // svg.selectAll(".areaEU").style("opacity", 0);
-      // svg.selectAll(".areaRUS").style("opacity", 0);
-      // svg.selectAll(".areaJPN").style("opacity", 0);
-
       svg.selectAll(".areaKOR2").style("opacity", 1);
-      // svg.selectAll(".areaUSA2").style("opacity", 0);
-      // svg.selectAll(".areaNZL2").style("opacity", 0);
-      // svg.selectAll(".areaCAN2").style("opacity", 0);
-      // svg.selectAll(".areaFRA2").style("opacity", 0);
-      // svg.selectAll(".areaEU2").style("opacity", 0);
-      // svg.selectAll(".areaRUS2").style("opacity", 0);
-      // svg.selectAll(".areaJPN2").style("opacity", 0);
+
     } else if (selectValue == "ALL") { // user selected somting
       console.log("hi");
       svg.selectAll(".areaKOR").style("opacity", 1);
@@ -1238,7 +1109,6 @@
   }
 
 
-
   function type(d) {
     d.time = parseDate(d.time);
     d.USAavg = +d.USAavg;
@@ -1254,13 +1124,12 @@
     return d;
   }
 
+
   /*pie diagram*/
   var w = 382, //width
     h = 450, //height
     r = 170, //radius
     color = d3.scale.category20c(); //builtin range of colors
-
-
 
 
   data = [{
@@ -1325,7 +1194,7 @@
     .text(function(d, i) {
       return data[i].label + ": " + data[i].value;
     });
-  // .text(function(d, i) { return data[i].value; });
+
 
 
   function updatePie(selectValue) {
@@ -1682,7 +1551,6 @@
     .text(function(d, i) {
       return data[i].label + ": " + data[i].value;
     });
-  // .text(function(d, i) { return data[i].value; });
 
 
   function updatePie2(selectValue) {
