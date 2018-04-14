@@ -7,7 +7,7 @@ var barChart = function(options) {
       bottom: 50,
       left: 100
     },
-    width = 960 - margin.left - margin.right,
+    width = 600 - margin.left - margin.right,
     height = 700 - margin.top - margin.bottom;
 
 
@@ -20,7 +20,7 @@ var barChart = function(options) {
   var keys, bars, x, y;
   var xAxis, yAxis;
 
-var selected;
+  var selected;
   var SVGselection;
 
   function chart(selection, data) {
@@ -101,23 +101,22 @@ var selected;
       });
 
 
-selected=1;
+    selected = 1;
     bars.on("click", function(d) {
 
- // console.log(selected);
+        // console.log(selected);
         var highlightkey = d.key;
-          // d3.selectAll("rect.bar").attr("fill", "teal");
-if (selected == 1){
-     d3.selectAll("rect.bar").attr("fill", "teal");
-    selected= 2;
-  d3.select(this)
-    .attr("fill", "orange");
-}
-else if(selected ==2){
-  d3.select(this)
-    .attr("fill", "orange");
-    selected = 1;
-}
+        // d3.selectAll("rect.bar").attr("fill", "teal");
+        if (selected == 1) {
+          d3.selectAll("rect.bar").attr("fill", "teal");
+          selected = 2;
+          d3.select(this)
+            .attr("fill", "orange");
+        } else if (selected == 2) {
+          d3.select(this)
+            .attr("fill", "orange");
+          selected = 1;
+        }
 
 
 

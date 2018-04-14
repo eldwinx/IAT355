@@ -54,7 +54,7 @@ var scatterChart2 = function(options) {
       .call(xAxis);
 
     svg.append("text")
-      .attr("x", 390)
+      .attr("x", 380)
       .attr("y", 200)
       .attr("dy", "1em")
       .style("text-anchor", "end")

@@ -60,7 +60,7 @@ var scatterChart = function(options) {
       .call(xAxis);
 
     svg.append("text")
-      .attr("x", 390)
+      .attr("x", 380)
       .attr("y", 200)
       .attr("dy", "1em")
       .style("text-anchor", "end")
@@ -113,14 +113,14 @@ var scatterChart = function(options) {
         return 4;
       })
 
-  //     .on("mouseover",
-  //     console.log("hello1")
-  //       // .text("Employment rate:");
-  //     )
-  // .on("mouseout",
-  //     console.log("hello2")
-  //       // .text("Employment rate:");
-  // )
+      //     .on("mouseover",
+      //     console.log("hello1")
+      //       // .text("Employment rate:");
+      //     )
+      // .on("mouseout",
+      //     console.log("hello2")
+      //       // .text("Employment rate:");
+      // )
 
 
       // if(d['country'] == 'USA') {
@@ -186,28 +186,28 @@ var scatterChart = function(options) {
   function update(country) {
 
 
- //    d3.selectAll("rect.bar").attr("fill", "teal");
- //   selected= 2;
- // d3.select(this)
- //   .attr("fill", "orange");
+    //    d3.selectAll("rect.bar").attr("fill", "teal");
+    //   selected= 2;
+    // d3.select(this)
+    //   .attr("fill", "orange");
     console.log(country);
     // d3.selectAll('circle.points').attr("opacity","0");
     // // d3.select('circle.points').attr("opacity","1");
     // if (country) { // user selected somting
-      // // svg.selectAll('circle.points').attr("opacity","0");
-      // if(scatclicked == 1) {
-      //   function(d) {
-      //     if(d['country'] == country) {
-      //       svg.select(this).attr("opacity", "1");
-      //     }
-      //   }
-      //   // svg.selectAll('circle.points').attr("opacity", function(d) {
-      //   //   if (d['country'] == country) return 0.7
-      //   // });
-      //   scatclicked = 2;
-      // }
+    // // svg.selectAll('circle.points').attr("opacity","0");
+    // if(scatclicked == 1) {
+    //   function(d) {
+    //     if(d['country'] == country) {
+    //       svg.select(this).attr("opacity", "1");
+    //     }
+    //   }
+    //   // svg.selectAll('circle.points').attr("opacity", function(d) {
+    //   //   if (d['country'] == country) return 0.7
+    //   // });
+    //   scatclicked = 2;
+    // }
 
-      // svg.select(this).attr("opacity", "1");
+    // svg.select(this).attr("opacity", "1");
     //   svg.selectAll('circle.points').attr("opacity", function(d) {
     //     if (d['country'] == country) return 0.7
     //     else return 0;
@@ -215,34 +215,34 @@ var scatterChart = function(options) {
     // } else {
     //   svg.selectAll('circle.points').attr("opacity", 0.7);
     // }
-  // }
-  if (country) { // user selected somting
-    svg.selectAll('circle.points').attr("opacity", function(d) {
-      if (d['country'] == country) return 0.7
-      else return 0;
-    });
-  } else {
-    svg.selectAll('circle.points').attr("opacity", 0.7);
+    // }
+    if (country) { // user selected somting
+      svg.selectAll('circle.points').attr("opacity", function(d) {
+        if (d['country'] == country) return 0.7
+        else return 0;
+      });
+    } else {
+      svg.selectAll('circle.points').attr("opacity", 0.7);
+    }
   }
-}
 
-//
-// function update2(country) {
-// console.log("mr.depress");
-// //    d3.selectAll("rect.bar").attr("fill", "teal");
-// //   selected= 2;
-// // d3.select(this)
-// //   .attr("fill", "orange");
-//
-// if (country) { // user selected somting
-//   d3.selectAll('circle.points').attr("opacity", function(d) {
-//     if (d['country'] == country) return 0.7
-//     else return 0;
-//   });
-// } else {
-//   svg.selectAll('circle.points').attr("opacity", 0.7);
-// }
-// }
+  //
+  // function update2(country) {
+  // console.log("mr.depress");
+  // //    d3.selectAll("rect.bar").attr("fill", "teal");
+  // //   selected= 2;
+  // // d3.select(this)
+  // //   .attr("fill", "orange");
+  //
+  // if (country) { // user selected somting
+  //   d3.selectAll('circle.points').attr("opacity", function(d) {
+  //     if (d['country'] == country) return 0.7
+  //     else return 0;
+  //   });
+  // } else {
+  //   svg.selectAll('circle.points').attr("opacity", 0.7);
+  // }
+  // }
 
   function brushended() {
     if (!d3.event.selection) {
@@ -335,7 +335,7 @@ var scatterChart = function(options) {
   };
 
   chart.onBrushData = function(data) {
-  //  console.log(" the default handler of on brush data length of brushed data " + data.length);
+    //  console.log(" the default handler of on brush data length of brushed data " + data.length);
   };
 
   return chart;

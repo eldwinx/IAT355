@@ -226,9 +226,9 @@
 
     .legend1 {
       background-color: white;
-      width: 134px;
+      width: 159px;
       float: left;
-      margin-right: 20px;
+      margin-right: 32px;
       margin-bottom: 1rem;
       height: 50px;
       /* box-shadow: 4px 4px 10px grey; */
@@ -312,6 +312,7 @@
     }
 
     #chart {
+      float: left;
       margin-bottom: 1rem;
     }
 
@@ -320,16 +321,23 @@
     }
 
     #chart4 {
+      clear: left;
       margin-right: 1rem;
       margin-bottom: 1rem;
     }
 
+    #chart5 {
+      float: left;
+
+    }
+
     .chart {
+      float: left;
       box-shadow: 4px 4px 10px grey;
     }
 
     .content {
-      width: 1215px;
+      width: 1500px;
       margin: 0 auto;
     }
 
@@ -339,7 +347,7 @@
       padding-left: 2rem;
       padding-top: 2rem;
       padding-bottom: 2rem;
-      width: 99.7%;
+      width: 99.9%;
       box-shadow: 4px 4px 10px grey;
 
     }
@@ -404,7 +412,7 @@
     <div class="chart" id="chart3"></div>
 
     <div class="chart" id="chart4">
-      <svg width="770" height="450"></svg>
+      <svg width="720" height="450"></svg>
     </div>
 
     <div class="chart" id="chart5">
@@ -426,37 +434,36 @@
 <script src="https://d3js.org/d3.v4.min.js"></script>
 
 <script>
-
   var clicked = false;
   var scatclick = 1;
   // use local file
   var url = "http://www.sfu.ca/~wadel/iat355/EDEmployment.csv";
 
   var scatterchart = scatterChart()
-    .width(426)
+    .width(382)
     .height(230);
 
-    var scatterchart4 = scatterChart4()
-      .width(426)
-      .height(230);
+  var scatterchart4 = scatterChart4()
+    .width(382)
+    .height(230);
 
   var scatterchart2 = scatterChart2()
-    .width(426)
+    .width(382)
     .height(230);
 
-    var scatterchart5 = scatterChart5()
-      .width(426)
-      .height(230);
+  var scatterchart5 = scatterChart5()
+    .width(382)
+    .height(230);
 
   var scatterchart3 = scatterChart3()
-    .width(426)
+    .width(382)
     .height(230);
 
-    var scatterchart6 = scatterChart6()
-      .width(426)
-      .height(230);
+  var scatterchart6 = scatterChart6()
+    .width(382)
+    .height(230);
   var parseTime = d3.timeParse("%Y");
-  var bargraph = new barChart().width(650).height(350);
+  var bargraph = new barChart().width(600).height(350);
 
   d3.csv(url)
     .row(function(d) {
@@ -493,7 +500,7 @@
           updatePie(selection);
           updatePie2();
           scatclick = 2;
-        } else if (scatclick == 2){
+        } else if (scatclick == 2) {
           scatterchart4.highlightcountry(selection);
           scatterchart5.highlightcountry(selection);
           scatterchart6.highlightcountry(selection);
@@ -858,7 +865,7 @@
     x.domain(d3.extent(data, function(d) {
       return d.time;
     }));
-    y.domain([0, d3.max(data, function(d) {
+    y.domain([60, d3.max(data, function(d) {
       return d.NZLavg;
     })]);
     x2.domain(x.domain());
@@ -1051,8 +1058,7 @@
       svg.selectAll(".areaJPN2").style("opacity", 0);
       svg.selectAll(".areaRUS2").style("opacity", 0);
       svg.selectAll(".areaKOR2").style("opacity", 0);
-    }
-     else if (clicked) {
+    } else if (clicked) {
       clicked = false;
     }
     if (selectValue == "USA") { // user selected somting
@@ -1143,13 +1149,13 @@
       // svg.selectAll(".areaKOR").style("opacity", 0);
 
       svg.selectAll(".areaEU2").style("opacity", 1);
-        // svg.selectAll(".areaUSA2").style("opacity", 0);
-        // svg.selectAll(".areaNZL2").style("opacity", 0);
-        // svg.selectAll(".areaCAN2").style("opacity", 0);
-        // svg.selectAll(".areaFRA2").style("opacity", 0);
-        // svg.selectAll(".areaJPN2").style("opacity", 0);
-        // svg.selectAll(".areaRUS2").style("opacity", 0);
-        // svg.selectAll(".areaKOR2").style("opacity", 0);
+      // svg.selectAll(".areaUSA2").style("opacity", 0);
+      // svg.selectAll(".areaNZL2").style("opacity", 0);
+      // svg.selectAll(".areaCAN2").style("opacity", 0);
+      // svg.selectAll(".areaFRA2").style("opacity", 0);
+      // svg.selectAll(".areaJPN2").style("opacity", 0);
+      // svg.selectAll(".areaRUS2").style("opacity", 0);
+      // svg.selectAll(".areaKOR2").style("opacity", 0);
     } else if (selectValue == "JPN") { // user selected somting
       console.log("hi");
       svg.selectAll(".areaJPN").style("opacity", 1);
@@ -1249,9 +1255,9 @@
   }
 
   /*pie diagram*/
-  var w = 426, //width
+  var w = 382, //width
     h = 450, //height
-    r = 190, //radius
+    r = 170, //radius
     color = d3.scale.category20c(); //builtin range of colors
 
 
@@ -1469,7 +1475,7 @@
       ];
     }
 
-  //
+    //
 
 
 
@@ -1606,9 +1612,9 @@
 
 
   /*pie diagram*/
-  var w = 426, //width
+  var w = 382, //width
     h = 450, //height
-    r = 190, //radius
+    r = 170, //radius
     color = d3.scale.category20c(); //builtin range of colors
 
 
